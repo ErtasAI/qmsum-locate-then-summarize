@@ -86,9 +86,56 @@ should match to about three decimal places. Wall-clock
 latency reproduces only to about 15% even on identical hardware, so treat any latency
 comparison under 20% as noise.
 
-`results/CHART.md` holds every row the project scored, including five frontier zero-shot
-baselines and four community checkpoints under the same frozen scorer, plus a separate,
-deliberately incommensurable table of published numbers from the literature.
+### The full comparison, one frozen scorer
+
+The paper's headline findings are orderings, and they mean something because every row below
+was produced by us and scored by the same frozen scorer on the same official test split
+(n=281). Sorted by ROUGE-1:
+
+| System | Params | Reads | R1 | R2 | R-Lsum | BERTScore |
+|---|---|---|---|---|---|---|
+| Socratic SegEnc (Pagnoni et al., ACL 2023), authors' released predictions¹ | 406M | transcript up to ~11.8k words | 0.3860 | 0.1391 | 0.3371 | 0.8737 |
+| SegEnc, retrained by us on located spans | 406M | 2,000 located words | 0.3633 | 0.1272 | 0.3217 | 0.8710 |
+| **This system, promoted configuration** | **1.2B + 33M** | **2,000 located words** | **0.3541** | **0.1228** | **0.3136** | **0.8733** |
+| **This system, protocol-exact** | **1.2B + 23M** | **3,000 located words** | **0.3339** | **0.1065** | **0.2930** | **0.8680** |
+| gpt-5.6-luna, zero-shot² | undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 |
+| gpt-5.6-sol, zero-shot² | undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 |
+| claude-opus-5, zero-shot² | undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 |
+| claude-haiku-4-5, zero-shot² | undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 |
+| distilbart-cnn-12-6, community checkpoint³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | |
+| claude-sonnet-5, zero-shot² | undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 |
+| bart-large-cnn, community checkpoint³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | |
+| pegasus-cnn, community checkpoint³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | |
+| led-base, community checkpoint³ | 162M | truncated to model context | 0.0941 | 0.0237 | 0.0796 | |
+
+¹ The one row we did not generate: scored from the authors' released prediction files under our
+frozen scorer, gated on first reproducing their reported score. Their model reads the
+transcript up to its ~11,800-word training-time truncation.
+² Frontier baselines read the full untruncated transcript (the 40,000-word budget exceeds the
+longest transcript in the split), zero-shot, non-reasoning regime, same prompt template as
+ours. Batch cost per full-split run at collect time (2026-07-27): luna $2.05, sol $10.23,
+opus $16.20, haiku $2.35, sonnet $6.50. Every local row runs at $0 API cost.
+³ Query-prefixed transcript truncated to each checkpoint's own encoder context
+(`eval/hf_rows.py`).
+
+Three orderings carry the paper:
+
+- **The fine-tuned 1.2B beats all five frontier zero-shot baselines on ROUGE-1 and
+  BERTScore**, paired-bootstrap intervals excluding zero, while reading 2,000 located words
+  against their full transcript.
+- **A 2023 406M specialist beats every 2026 frontier model by 6.2 ROUGE-1** under one scorer.
+  It also beats this system by 3.2 ROUGE-1, an interval firmly excluding zero, while BERTScore
+  cannot separate the two systems. That metric disagreement is one of the paper's measurement
+  findings.
+- **The 406M SegEnc, retrained on the same located spans this system reads, is statistically
+  indistinguishable from the 1.2B on every metric** (all intervals cross zero) at 2.9x fewer
+  parameters and 2.16x less peak inference VRAM. Training regime and architecture outweigh
+  scale, which is the paper's title claim.
+
+`results/CHART.md` holds every row the project scored, including the validation sweeps, plus
+a separate, deliberately incommensurable table of published numbers from the literature.
+Published QMSum numbers use ROUGE implementations the benchmark never specified, so they must
+never share a column with these rows; the paper measures the cross-implementation delta.
 
 ## Optional legs (API keys)
 
