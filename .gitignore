@@ -20,3 +20,17 @@ results/external/
 # (5cf1ee8f659e39a63860d31b2546153fdad624fecd2718e38d532088bf9655e5) pins the artifact
 # without committing the binary. Same philosophy as checkpoints/ above.
 results/export/
+
+# Outputs of the optional legs and probes (frontier baselines, judge runs, tests).
+# The published rows and predictions are tracked; anything you regenerate lands here.
+results/baseline_cache/
+results/batch_jobs/
+results/claim_veracity/
+results/density_probe/
+results/judge/
+results/judge_cache/
+results/judge_controls/
+results/judge_facts/
+results/marking_probe/
+results/retrieval_attribution/
+results/sync_probe/

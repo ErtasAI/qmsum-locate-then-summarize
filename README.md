@@ -77,9 +77,12 @@ Full official test split, n=281, greedy decoding:
 | Promoted | `results/rows/loc-w375-l12-b2000-test.json` | 0.3541 | 0.1228 | 0.2463 | 0.3136 | 0.8733 |
 | Protocol-exact | `results/rows/m3-fusion-lfm2.5-1.2b-test.json` | 0.3339 | 0.1065 | 0.2283 | 0.2930 | 0.8680 |
 
-On the hardware that produced these rows, re-runs reproduced the predictions byte-identically
-(greedy decoding, fixed seed). On different hardware, small numeric drift in the last decimal
-places is possible; the ROUGE figures should match to about three decimal places. Wall-clock
+This exact path was verified on 2026-08-12: a fresh extraction of this repo, the data build,
+the hash-verified artifact fetch and the promoted-configuration run reproduced all 281
+predictions byte-identically against the published prediction file and matched the published
+row to full float precision (on the GPU family that produced the rows). On different
+hardware, small numeric drift in the last decimal places is possible; the ROUGE figures
+should match to about three decimal places. Wall-clock
 latency reproduces only to about 15% even on identical hardware, so treat any latency
 comparison under 20% as noise.
 
@@ -129,8 +132,9 @@ takes about five and a half GPU-hours when it completes. The locators are cheap 
 python -m pytest tests/
 ```
 
-The suite runs without a GPU and without API keys. Tests covering the data builders expect
-the data step above to have run first; everything else is self-contained.
+The suite runs without a GPU and without API keys, but expects the data step above to have
+run first (it exercises the builders and the built splits). From a fresh clone plus the data
+step: 351 passed, 2 skipped.
 
 ## Licences
 
