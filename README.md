@@ -92,21 +92,21 @@ The paper's headline findings are orderings, and they mean something because eve
 was produced by us and scored by the same frozen scorer on the same official test split
 (n=281). Sorted by ROUGE-1:
 
-| System | Params | Reads | R1 | R2 | R-Lsum | BERTScore |
-|---|---|---|---|---|---|---|
-| Socratic SegEnc (Pagnoni et al., ACL 2023), authors' released predictions¹ | 406M | transcript up to ~11.8k words | 0.3860 | 0.1391 | 0.3371 | 0.8737 |
-| SegEnc, retrained by us on located spans | 406M | 2,000 located words | 0.3633 | 0.1272 | 0.3217 | 0.8710 |
-| **This system, promoted configuration** | **1.2B + 33M** | **2,000 located words** | **0.3541** | **0.1228** | **0.3136** | **0.8733** |
-| **This system, protocol-exact** | **1.2B + 23M** | **3,000 located words** | **0.3339** | **0.1065** | **0.2930** | **0.8680** |
-| gpt-5.6-luna, zero-shot² | undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 |
-| gpt-5.6-sol, zero-shot² | undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 |
-| claude-opus-5, zero-shot² | undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 |
-| claude-haiku-4-5, zero-shot² | undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 |
-| distilbart-cnn-12-6, community checkpoint³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | |
-| claude-sonnet-5, zero-shot² | undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 |
-| bart-large-cnn, community checkpoint³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | |
-| pegasus-cnn, community checkpoint³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | |
-| led-base, community checkpoint³ | 162M | truncated to model context | 0.0941 | 0.0237 | 0.0796 | |
+| System | Params | Reads | R1 | R2 | R-Lsum | BERTScore | API cost, full split² |
+|---|---|---|---|---|---|---|---|
+| Socratic SegEnc (Pagnoni et al., ACL 2023), authors' released predictions¹ | 406M | transcript up to ~11.8k words | 0.3860 | 0.1391 | 0.3371 | 0.8737 | N/A |
+| SegEnc, retrained by us on located spans | 406M | 2,000 located words | 0.3633 | 0.1272 | 0.3217 | 0.8710 | N/A |
+| **This system, promoted configuration** | **1.2B + 33M** | **2,000 located words** | **0.3541** | **0.1228** | **0.3136** | **0.8733** | **N/A** |
+| **This system, protocol-exact** | **1.2B + 23M** | **3,000 located words** | **0.3339** | **0.1065** | **0.2930** | **0.8680** | **N/A** |
+| gpt-5.6-luna, zero-shot² | undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 | $2.05 |
+| gpt-5.6-sol, zero-shot² | undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 | $10.23 |
+| claude-opus-5, zero-shot² | undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 | $16.20 |
+| claude-haiku-4-5, zero-shot² | undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 | $2.35 |
+| distilbart-cnn-12-6, community checkpoint³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | | N/A |
+| claude-sonnet-5, zero-shot² | undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 | $6.50 |
+| bart-large-cnn, community checkpoint³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | | N/A |
+| pegasus-cnn, community checkpoint³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | | N/A |
+| led-base, community checkpoint³ | 162M | truncated to model context | 0.0941 | 0.0237 | 0.0796 | | N/A |
 
 ¹ The one row we did not generate: scored from the authors' released prediction files under our
 frozen scorer, gated on first reproducing their reported score. Their model reads the
@@ -120,8 +120,10 @@ it as their system row would understate the strongest published specialist by an
 our port, so the headline row stays sourced from their own predictions.
 ² Frontier baselines read the full untruncated transcript (the 40,000-word budget exceeds the
 longest transcript in the split), zero-shot, non-reasoning regime, same prompt template as
-ours. Batch cost per full-split run at collect time (2026-07-27): luna $2.05, sol $10.23,
-opus $16.20, haiku $2.35, sonnet $6.50. Every local row runs at $0 API cost.
+ours. API cost is the batch price for the full 281-query split, recorded at collect time
+(2026-07-27); per-row figures live in `cost_usd_total` in `results/rows/`. N/A means no API
+in the loop: those rows run on local GPU time (a full-split run of this system takes about
+11 minutes on an RTX 5070 Ti).
 ³ Query-prefixed transcript truncated to each checkpoint's own encoder context
 (`eval/hf_rows.py`).
 
