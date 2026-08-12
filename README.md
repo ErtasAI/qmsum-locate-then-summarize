@@ -110,7 +110,14 @@ was produced by us and scored by the same frozen scorer on the same official tes
 
 ¹ The one row we did not generate: scored from the authors' released prediction files under our
 frozen scorer, gated on first reproducing their reported score. Their model reads the
-transcript up to its ~11,800-word training-time truncation.
+transcript up to its ~11,800-word training-time truncation. We also ran their released
+checkpoint end to end through our own harness (`eval/segenc.py` ports their model classes);
+that inference scores a stable 3.3 ROUGE-1 below what their released predictions score, an
+offset that survived ruling out precision and padding and is likeliest explained by the
+uploaded weights differing from the exact seed checkpoint behind their released predictions.
+That run ships as `results/rows/segenc-port-full-test.json`, marked calibration-only: quoting
+it as their system row would understate the strongest published specialist by an artifact of
+our port, so the headline row stays sourced from their own predictions.
 ² Frontier baselines read the full untruncated transcript (the 40,000-word budget exceeds the
 longest transcript in the split), zero-shot, non-reasoning regime, same prompt template as
 ours. Batch cost per full-split run at collect time (2026-07-27): luna $2.05, sol $10.23,
