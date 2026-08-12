@@ -1,0 +1,26 @@
+[
+  {
+    "run": "locator-l6-w900-protocol-exact",
+    "base_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "train_pairs": 13738,
+    "epochs": 2,
+    "batch_size": 32,
+    "wall_clock_s": 91.2,
+    "wall_clock_min": 1.52,
+    "peak_allocated_gb": 2.82,
+    "gpu_mem_in_use_at_start_mib": 0,
+    "note": "timed re-run with original settings to a disposable directory; the promoted checkpoint was not touched"
+  },
+  {
+    "run": "locator-l12-w375-promoted",
+    "base_model": "cross-encoder/ms-marco-MiniLM-L-12-v2",
+    "train_pairs": 33655,
+    "epochs": 2,
+    "batch_size": 32,
+    "wall_clock_s": 427.7,
+    "wall_clock_min": 7.13,
+    "peak_allocated_gb": 5.265,
+    "gpu_mem_in_use_at_start_mib": 3282,
+    "note": "timed re-run with original settings to a disposable directory; the promoted checkpoint was not touched"
+  }
+]

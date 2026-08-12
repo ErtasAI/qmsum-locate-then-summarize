@@ -1,0 +1,13 @@
+{
+  "run_id": "m1-qwen3-1.7b-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.22722462135901925,
+  "rouge2": 0.06207695330682532,
+  "rougeL": 0.16307176915643967,
+  "rougeLsum": 0.19411540019150542,
+  "bertscore_f1": 0.8304972648620605,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "epoch 1 of 3 (stopped per timing correction); ~11 pct of train rows all-masked at 6144 ctx; generation resumed across 2 OOM crashes pre-fix | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

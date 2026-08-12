@@ -1,0 +1,18 @@
+{
+  "run_id": "loc-w375-l12-b2000-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.35406229398257055,
+  "rouge2": 0.12281792239897107,
+  "rougeL": 0.24628147209239287,
+  "rougeLsum": 0.31361335660205014,
+  "bertscore_f1": 0.8732748031616211,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 2.422,
+  "locate_s_mean": 0.071,
+  "generate_s_mean": 2.351,
+  "latency_n_timed": 280,
+  "device": "NVIDIA GeForce RTX 5070 Ti",
+  "billing_mode": null,
+  "notes": "PROMOTED LOCATOR CONFIG, test touch 2026-07-30. w375-l12 locator (375w windows, MiniLM-L12) at span budget 2000, same summarizer adapter, greedy. Config CHOSEN ON VAL across 4 candidates (base@3000, w375@3000, w375-l12@3000/2000/1500); val R1 0.3539. Deviations from frozen protocol: chunk_words 375, span_budget 2000, locator ckpt. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

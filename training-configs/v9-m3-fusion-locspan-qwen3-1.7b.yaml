@@ -1,0 +1,13 @@
+# M3 locator-lever run: v2 recipe exactly, except training prompts come from
+# CROSSENCODER LOCATOR spans (protocol budget 3000) instead of gold spans
+# (data/build_locspan_train.py). Controlled A/B vs m2-fusion-qwen3-1.7b (0.3344):
+# same base, same hyperparameters, same query set; only the span source changes.
+run_name: m3-fusion-locspan-qwen3-1.7b
+base_model: Qwen/Qwen3-1.7B
+train_file: data/built/fusion_locspan.train.jsonl
+lora: {r: 16, alpha: 32, dropout: 0.05}
+lr: 2.0e-4
+epochs: 3
+micro_batch: 2
+grad_accum: 8
+max_seq_len: 6144

@@ -1,0 +1,13 @@
+{
+  "run_id": "row-bart-large-cnn-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.2732029700394765,
+  "rouge2": 0.056489624244081486,
+  "rougeL": 0.17414504847662324,
+  "rougeLsum": 0.24084986094987115,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

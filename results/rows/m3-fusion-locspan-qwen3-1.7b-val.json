@@ -1,0 +1,13 @@
+{
+  "run_id": "m3-fusion-locspan-qwen3-1.7b-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.32929787579313047,
+  "rouge2": 0.0985869379582937,
+  "rougeL": 0.22349873489590055,
+  "rougeLsum": 0.2898587998624288,
+  "bertscore_f1": 0.8646703362464905,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "v9 config; trained on crossencoder-locator spans (fusion_locspan) instead of gold spans, controlled A/B vs m2-fusion 0.3344; crossencoder locator, protocol budget 3000 | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

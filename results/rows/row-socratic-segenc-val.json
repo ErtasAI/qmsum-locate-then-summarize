@@ -1,0 +1,18 @@
+{
+  "run_id": "row-socratic-segenc-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.38585396662886734,
+  "rouge2": 0.1335652428543599,
+  "rougeL": 0.24990479587260298,
+  "rougeLsum": 0.3399579271099294,
+  "bertscore_f1": null,
+  "cost_usd_total": null,
+  "latency_s_mean": null,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": null,
+  "device": null,
+  "billing_mode": null,
+  "notes": "Pagnoni et al. ACL 2023 Socratic SegEnc, their published val.predictions, our frozen scorer. Authors report 38.53, we get 38.59 (delta +0.06)."
+}

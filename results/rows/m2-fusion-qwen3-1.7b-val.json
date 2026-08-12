@@ -1,0 +1,13 @@
+{
+  "run_id": "m2-fusion-qwen3-1.7b-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.3344178839164029,
+  "rouge2": 0.09764158827588101,
+  "rougeL": 0.2249024182688133,
+  "rougeLsum": 0.29424496860381644,
+  "bertscore_f1": 0.8661350607872009,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "full 3 epochs; crossencoder locator; gate vs M1+0.010 | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

@@ -1,0 +1,18 @@
+{
+  "run_id": "loc-w375-l12-b2000-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.3538592379899526,
+  "rouge2": 0.11391136506747963,
+  "rougeL": 0.2388278138081707,
+  "rougeLsum": 0.3109135570458159,
+  "bertscore_f1": 0.8724173307418823,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 2.352,
+  "locate_s_mean": 0.07,
+  "generate_s_mean": 2.281,
+  "latency_n_timed": 271,
+  "device": "NVIDIA GeForce RTX 5070 Ti",
+  "billing_mode": null,
+  "notes": "PRECISION TEST 2026-07-30. w375-l12 locator at span budget 2000 (utterance recall 0.670, ABOVE base@3000's 0.627) with 1000 fewer words of distractor. Tests whether span precision beats span recall once the locator is not truncated. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

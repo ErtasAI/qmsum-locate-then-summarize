@@ -1,0 +1,13 @@
+{
+  "run_id": "dialogled-large-fusion-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.30668502544005816,
+  "rouge2": 0.07277948800717192,
+  "rougeL": 0.18462674042210508,
+  "rougeLsum": 0.26807403857797046,
+  "bertscore_f1": 0.85378098487854,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "5 epochs on fusion targets; crossencoder locator; beam 4 | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

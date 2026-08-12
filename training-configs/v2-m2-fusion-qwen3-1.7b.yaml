@@ -1,0 +1,9 @@
+run_name: m2-fusion-qwen3-1.7b
+base_model: Qwen/Qwen3-1.7B
+train_file: data/built/fusion.train.jsonl
+lora: {r: 16, alpha: 32, dropout: 0.05}
+lr: 2.0e-4
+epochs: 3
+micro_batch: 2          # fusion prompts are ~3k words, roomier than M1
+grad_accum: 8
+max_seq_len: 6144

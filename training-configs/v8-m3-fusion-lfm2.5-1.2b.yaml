@@ -1,0 +1,14 @@
+# M3 base-model axis, newer-generation tier: LFM2.5-1.2B-Instruct (LFM Open License
+# v1.0 — benchmark OK, verify per license-checklist.md before publish). Same fusion
+# recipe as v2. Trains in the frozen .venv (lfm2 supported in transformers 4.57.6).
+# Qwen3.5-2B/0.8B (v7) are BLOCKED locally: hybrid linear-attention backward peaks
+# ~22-24GB at 6144 ctx on Windows (no flash-linear-attention conv kernels).
+run_name: m3-fusion-lfm2.5-1.2b
+base_model: LiquidAI/LFM2.5-1.2B-Instruct
+train_file: data/built/fusion.train.jsonl
+lora: {r: 16, alpha: 32, dropout: 0.05}
+lr: 2.0e-4
+epochs: 3
+micro_batch: 1
+grad_accum: 16
+max_seq_len: 6144

@@ -1,0 +1,14 @@
+{
+  "run_id": "baseline-gpt-5.6-sol-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.3092016470115234,
+  "rouge2": 0.06937001087153098,
+  "rougeL": 0.18332937122792864,
+  "rougeLsum": 0.26096445715752764,
+  "bertscore_f1": 0.8582870364189148,
+  "cost_usd_total": 10.230923,
+  "latency_s_mean": null,
+  "billing_mode": "batch",
+  "notes": "zero-shot frontier baseline, untruncated (PROMPT_WORD_BUDGET 40000); non-reasoning regime (reasoning_effort=none, 0 reasoning tokens billed); batch API at 50% rate, 6 chunks under the 900k enqueued-token ceiling; temperature not expressible on GPT-5.6 (400), vendor default used | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged."
+}

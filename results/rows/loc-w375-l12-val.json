@@ -1,0 +1,18 @@
+{
+  "run_id": "loc-w375-l12-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.34500140288746467,
+  "rouge2": 0.10250102077530641,
+  "rougeL": 0.2310390208475926,
+  "rougeLsum": 0.30359571376129285,
+  "bertscore_f1": 0.870526134967804,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 2.826,
+  "locate_s_mean": 0.07,
+  "generate_s_mean": 2.755,
+  "latency_n_timed": 271,
+  "device": "NVIDIA GeForce RTX 5070 Ti",
+  "billing_mode": null,
+  "notes": "LOCATOR EXPERIMENT 2026-07-30. Deviations: chunk_words 375 (protocol 900), locator ckpt locator-crossencoder-w375-l12. Fixes the 512-token truncation: utterance recall 0.627 -> 0.765. Same summarizer adapter, greedy decode. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

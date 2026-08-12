@@ -1,0 +1,22 @@
+.env
+.venv/
+data/raw/
+data/built/
+checkpoints/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Third-party model weights downloaded for comparison rows, 1.6 GB and re-fetchable.
+# `results/external/socratic-qmsum/` is Salesforce's released Socratic SegEnc checkpoint,
+# fetched from the Hub. Committing it would bloat the history permanently (git cannot
+# easily shed a 1.6 GB blob) and would redistribute someone else's weights from this repo.
+# Re-fetch rather than commit. The predictions we generated FROM it are tracked, in
+# results/preds/, because those are the paper's releasable artifact.
+results/external/
+
+# GGUF export of the promoted adapter (22 MB). Regenerable deterministically from the
+# released adapter via llama.cpp convert_lora_to_gguf.py; its SHA256
+# (5cf1ee8f659e39a63860d31b2546153fdad624fecd2718e38d532088bf9655e5) pins the artifact
+# without committing the binary. Same philosophy as checkpoints/ above.
+results/export/

@@ -1,0 +1,80 @@
+{
+  "config": "training-configs/v8-m3-fusion-lfm2.5-1.2b.yaml",
+  "base_model": "LiquidAI/LFM2.5-1.2B-Instruct",
+  "max_seq_len": 6144,
+  "n_train_examples": 1095,
+  "token_length_min": 554,
+  "token_length_median": 2279,
+  "token_length_max": 4481,
+  "gpu_name": "NVIDIA GeForce RTX 5070 Ti",
+  "gpu_total_gb": 17.094,
+  "gpu_memory_used_mib_at_start": 0,
+  "resident_weights_floor": {
+    "peak_vram_gb": 1.17,
+    "peak_vram_reserved_gb": 1.29
+  },
+  "points": [
+    {
+      "tokens": 554,
+      "words": 410,
+      "peak_vram_gb": 1.381,
+      "peak_vram_reserved_gb": 1.504
+    },
+    {
+      "tokens": 1220,
+      "words": 986,
+      "peak_vram_gb": 1.988,
+      "peak_vram_reserved_gb": 2.527
+    },
+    {
+      "tokens": 1284,
+      "words": 936,
+      "peak_vram_gb": 2.042,
+      "peak_vram_reserved_gb": 2.603
+    },
+    {
+      "tokens": 1355,
+      "words": 987,
+      "peak_vram_gb": 2.101,
+      "peak_vram_reserved_gb": 3.047
+    },
+    {
+      "tokens": 2130,
+      "words": 1692,
+      "peak_vram_gb": 3.582,
+      "peak_vram_reserved_gb": 4.389
+    },
+    {
+      "tokens": 2357,
+      "words": 1697,
+      "peak_vram_gb": 4.134,
+      "peak_vram_reserved_gb": 4.979
+    },
+    {
+      "tokens": 2497,
+      "words": 1843,
+      "peak_vram_gb": 4.507,
+      "peak_vram_reserved_gb": 5.562
+    },
+    {
+      "tokens": 2849,
+      "words": 1860,
+      "peak_vram_gb": 5.518,
+      "peak_vram_reserved_gb": 6.677
+    },
+    {
+      "tokens": 3848,
+      "words": 3089,
+      "peak_vram_gb": 9.094,
+      "peak_vram_reserved_gb": 10.706
+    },
+    {
+      "tokens": 4481,
+      "words": 3086,
+      "peak_vram_gb": 11.889,
+      "peak_vram_reserved_gb": 13.378
+    }
+  ],
+  "failed_at": null,
+  "note": "Per-step peak for one example at each length, optimizer state resident. Floor for a full run, not a ceiling: Trainer holds additional state around this."
+}

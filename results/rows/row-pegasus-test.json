@@ -1,0 +1,13 @@
+{
+  "run_id": "row-pegasus-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.20094905450126127,
+  "rouge2": 0.044499850322638694,
+  "rougeL": 0.14919848232636165,
+  "rougeLsum": 0.17225706272519525,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "loaded bfloat16, not float16, to avoid a fp16 numerical-instability collapse to empty output on this checkpoint (see eval/hf_rows.py docstring) | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

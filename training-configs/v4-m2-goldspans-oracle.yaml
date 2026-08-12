@@ -1,0 +1,8 @@
+# Inference-only ORACLE diagnostic (no training): existing M2 checkpoint generates
+# over the gold-span fusion prompts (data/built/fusion.val.jsonl, specific queries
+# only, n=237). Bounds the locator lever: pipeline score with perfect location.
+run_name: m2-goldspans
+adapter: checkpoints/m2-fusion-qwen3-1.7b/final
+data: data/built/fusion.val.jsonl
+split: val
+scored: partial (specific-only), run_eval --allow-partial; diagnostic, not a leaderboard row

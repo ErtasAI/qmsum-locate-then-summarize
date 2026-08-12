@@ -1,0 +1,18 @@
+{
+  "run_id": "segenc-port-spans-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.29001248243425204,
+  "rouge2": 0.09546610341596,
+  "rougeL": 0.20301028140598798,
+  "rougeLsum": 0.2550116152723705,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 3.249,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": 272,
+  "device": null,
+  "billing_mode": null,
+  "notes": "SegEnc PORT, SPANS regime: fed OUR located spans (w375-l12 locator, budget 2000) instead of the full transcript. Same weights, same code, pad=True so chunk count is fixed at 63 in both arms. Within-port ablation isolating the input regime. Port offset ~0.033 R1 vs their published predictions, so read the DELTA not the absolute. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

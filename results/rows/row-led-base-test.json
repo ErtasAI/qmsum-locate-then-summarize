@@ -1,0 +1,13 @@
+{
+  "run_id": "row-led-base-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.09406718390966297,
+  "rouge2": 0.02374306845797349,
+  "rougeL": 0.07946416259288884,
+  "rougeLsum": 0.07955096042207736,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

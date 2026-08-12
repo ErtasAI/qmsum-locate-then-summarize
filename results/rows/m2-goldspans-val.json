@@ -1,0 +1,13 @@
+{
+  "run_id": "m2-goldspans-val",
+  "split": "val",
+  "n": 237,
+  "rouge1": 0.3686690132899911,
+  "rouge2": 0.12826367064928235,
+  "rougeL": 0.2543167886698322,
+  "rougeLsum": 0.32456296355744346,
+  "bertscore_f1": 0.8738420009613037,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "notes": "ORACLE diagnostic: gold-span prompts, specific queries only (n=237); bounds the locator lever; not a leaderboard row | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

@@ -1,0 +1,9 @@
+# Inference-only sweep run (no training): existing M2 checkpoint, crossencoder
+# locator, SPAN_BUDGET_WORDS overridden 3000 -> 2000 via run_pipeline --span-budget.
+# PROTOCOL DEVIATION recorded here and in the row notes; protocol.py untouched.
+# Tests the noise hypothesis (tighter spans, lower recall, less dilution).
+run_name: m2-budget2000
+adapter: checkpoints/m2-fusion-qwen3-1.7b/final
+locator: crossencoder
+span_budget_words: 2000
+split: val

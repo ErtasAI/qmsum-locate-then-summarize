@@ -1,0 +1,18 @@
+{
+  "run_id": "segenc-c8-e4-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.37126482208203543,
+  "rouge2": 0.12080265874118556,
+  "rougeL": 0.23803474709414724,
+  "rougeLsum": 0.3244008893079875,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 1.706,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": 272,
+  "device": null,
+  "billing_mode": null,
+  "notes": "EXPERIMENT B: SegEnc trained AND evaluated at max_num_chunks 8 (N=15 with stride), matched to the 2000-word span budget, vs 63 chunks before. Tests whether the quality holds at 4.2x less encoder work, which decides whether our 1.2B has any remaining cost advantage. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

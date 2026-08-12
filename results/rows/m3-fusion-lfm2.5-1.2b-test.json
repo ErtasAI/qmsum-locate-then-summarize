@@ -1,0 +1,18 @@
+{
+  "run_id": "m3-fusion-lfm2.5-1.2b-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.3339480408997353,
+  "rouge2": 0.10650748099743121,
+  "rougeL": 0.22827737291269254,
+  "rougeLsum": 0.2929867669243913,
+  "bertscore_f1": 0.8680066466331482,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 2.629,
+  "locate_s_mean": 0.022,
+  "generate_s_mean": 2.607,
+  "latency_n_timed": 280,
+  "device": "NVIDIA GeForce RTX 5070 Ti",
+  "billing_mode": null,
+  "notes": "M4 promotion of the M3 sweep winner (val R1 0.3389, v8 config); single test-split scoring per protocol; crossencoder locator, budget 3000. Latency added 2026-07-27 by re-running inference on an idle RTX 5070 Ti (16GB, bf16, batch 1); the 281 predictions came back BYTE-IDENTICAL to the originally scored file, so quality metrics are unchanged and the pipeline is confirmed deterministic. Stage split: locate 0.022s (0.8%), generate 2.607s (99.2%). Warmup query excluded from means. | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

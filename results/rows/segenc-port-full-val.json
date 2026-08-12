@@ -1,0 +1,18 @@
+{
+  "run_id": "segenc-port-full-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.35302020940606893,
+  "rouge2": 0.1140764388756009,
+  "rougeL": 0.22889708365203912,
+  "rougeLsum": 0.3107109607454355,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 4.853,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": 272,
+  "device": null,
+  "billing_mode": null,
+  "notes": "SegEnc PORT, full-transcript regime, bf16, pad=True, 63 chunks. Our own inference on the released checkpoint. Port offset: reproduces their published predictions to within ~0.005-0.011 R1 on a 30-query check, NOT exact. Use for the within-port spans ablation only; the absolute socratic row stays sourced from their published predictions. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

@@ -1,0 +1,18 @@
+{
+  "run_id": "sweep-decode-nr3-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.3332288144341203,
+  "rouge2": 0.08506682501808661,
+  "rougeL": 0.21682555412923699,
+  "rougeLsum": 0.29359210278956016,
+  "bertscore_f1": 0.8684215545654297,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 2.466,
+  "locate_s_mean": 0.022,
+  "generate_s_mean": 2.444,
+  "latency_n_timed": 271,
+  "device": "NVIDIA GeForce RTX 5070 Ti",
+  "billing_mode": null,
+  "notes": "DECODE SWEEP 2026-07-30, protocol deviation: --no-repeat-ngram-size 3. Val only. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

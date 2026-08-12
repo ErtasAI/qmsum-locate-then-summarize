@@ -1,0 +1,13 @@
+# M3 base-model axis, newer-generation tier: Qwen3.5-2B (apache-2.0), same fusion
+# recipe as v2. Trains/generates in a second environment (transformers 5.14.1 + peft;
+# the qwen3_5 arch is unsupported in the frozen env) via dump_prompts + generate_sft;
+# locating and scoring stay in the frozen environment.
+run_name: m3-fusion-qwen3.5-2b
+base_model: Qwen/Qwen3.5-2B
+train_file: data/built/fusion.train.jsonl
+lora: {r: 16, alpha: 32, dropout: 0.05}
+lr: 2.0e-4
+epochs: 3
+micro_batch: 1          # 2B at 6144 ctx: conservative vs the 1.7B's micro_batch 2
+grad_accum: 16
+max_seq_len: 6144

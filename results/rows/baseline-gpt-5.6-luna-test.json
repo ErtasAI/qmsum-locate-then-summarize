@@ -1,0 +1,14 @@
+{
+  "run_id": "baseline-gpt-5.6-luna-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.3243029471142055,
+  "rouge2": 0.07888518521165254,
+  "rougeL": 0.1905263568498786,
+  "rougeLsum": 0.27486784101466455,
+  "bertscore_f1": 0.8608165979385376,
+  "cost_usd_total": 2.047207,
+  "latency_s_mean": null,
+  "billing_mode": "batch",
+  "notes": "zero-shot frontier baseline, untruncated (PROMPT_WORD_BUDGET 40000); non-reasoning regime (reasoning_effort=none, 0 reasoning tokens billed); batch API at 50% rate; temperature not expressible on GPT-5.6 (400), vendor default used | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged."
+}

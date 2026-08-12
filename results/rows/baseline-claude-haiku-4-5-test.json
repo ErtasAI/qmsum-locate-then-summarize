@@ -1,0 +1,14 @@
+{
+  "run_id": "baseline-claude-haiku-4-5-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.28662773133469677,
+  "rouge2": 0.08415472471379727,
+  "rougeL": 0.17259425163497255,
+  "rougeLsum": 0.2419250674955879,
+  "bertscore_f1": 0.8431149125099182,
+  "cost_usd_total": 2.345842,
+  "latency_s_mean": null,
+  "billing_mode": "batch",
+  "notes": "zero-shot frontier baseline, untruncated (PROMPT_WORD_BUDGET 40000); non-reasoning regime (thinking disabled); batch API at 50% rate; temperature not expressible on Claude 5 (400), vendor default used | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged."
+}

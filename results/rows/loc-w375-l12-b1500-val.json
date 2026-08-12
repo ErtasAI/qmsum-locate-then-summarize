@@ -1,0 +1,18 @@
+{
+  "run_id": "loc-w375-l12-b1500-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.34703677075967493,
+  "rouge2": 0.11087797107879224,
+  "rougeL": 0.23698739347003905,
+  "rougeLsum": 0.3080813611742718,
+  "bertscore_f1": 0.8729761838912964,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 2.093,
+  "locate_s_mean": 0.07,
+  "generate_s_mean": 2.023,
+  "latency_n_timed": 271,
+  "device": "NVIDIA GeForce RTX 5070 Ti",
+  "billing_mode": null,
+  "notes": "BUDGET CURVE 2026-07-30: w375-l12 locator at span budget 1500 (utterance recall 0.6098, BELOW base@3000). Third point on the precision/recall tradeoff curve, to test whether 2000 is the optimum rather than assuming a monotone trend. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

@@ -1,0 +1,18 @@
+{
+  "run_id": "lfm25-goldspans-val",
+  "split": "val",
+  "n": 237,
+  "rouge1": 0.36706554196132896,
+  "rouge2": 0.12810143537551563,
+  "rougeL": 0.2482333541596143,
+  "rougeLsum": 0.324267959137902,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": null,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": null,
+  "device": null,
+  "billing_mode": null,
+  "notes": "ORACLE for the CURRENT summarizer, 2026-07-30. LFM2.5-1.2B winner adapter over gold-span prompts (data/built/fusion.val.jsonl), specific queries only n=237. Replaces m2-goldspans-val (0.3687), which used the Qwen3-1.7B M2 adapter and cannot be paired with an LFM2.5 pipeline term. Diagnostic, not a leaderboard row. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

@@ -1,0 +1,22 @@
+{
+  "run_id": "gguf-q4km-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.3434674576155297,
+  "rouge2": 0.10652053108378412,
+  "rougeL": 0.23051463326894356,
+  "rougeLsum": 0.3030897427159909,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 0.39,
+  "locate_s_mean": 0.07,
+  "generate_s_mean": 0.32,
+  "latency_n_timed": 271,
+  "peak_vram_gb_max": null,
+  "peak_vram_gb_median": null,
+  "peak_vram_gb_p95": null,
+  "peak_vram_reserved_gb_max": null,
+  "device": null,
+  "billing_mode": null,
+  "notes": "QUANTIZED EXPORT row (gap 8, publish gate): promoted pipeline with the summarizer swapped for the exported artifact (Q4_K_M base GGUF + f16 LoRA GGUF, SHA256 5cf1ee8f659e39a63860d31b2546153fdad624fecd2718e38d532088bf9655e5) under llama.cpp b9351, temp 0 top_k 1. Locate stage unchanged (w375-l12, 2000w budget). Pre-declared in findings.md 'QUANTIZED EXPORT DECLARED 2026-08-04'; comparator bf16 val 0.3539. Val only; the on-device number, never a Table 1 row. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

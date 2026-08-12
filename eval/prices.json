@@ -1,0 +1,57 @@
+{
+  "_note": "USD per 1M tokens. Verified against each vendor's own pricing page, not aggregators.",
+  "_verified_on": "2026-07-27",
+  "_sources": {
+    "anthropic": "https://platform.claude.com/docs/en/about-claude/pricing.md",
+    "openai": "https://developers.openai.com/api/docs/pricing"
+  },
+  "_batch_discount": 0.5,
+  "_batch_note": "Both vendors: 50% off input and output. Batch rates are listed per model as input_per_1m_batch / output_per_1m_batch. The scripts run synchronously and bill at standard rates; if you switch to batch, report the batch column and say so.",
+  "_tokenizer_warning": "Claude 4.7 and later (so Opus 5 and Sonnet 5) use a newer tokenizer producing roughly 30% MORE tokens for the same text than Haiku 4.5 or the earlier models. Token counts are therefore NOT comparable across models or vendors. Compare cost in USD, never token counts. This is a real cost to a buyer, not a measurement error, so report it as-is and footnote why the Claude 5 rows show higher input tokens for identical transcripts.",
+
+  "gpt-5.6-sol": {
+    "input_per_1m": 5.00, "output_per_1m": 30.00,
+    "input_per_1m_batch": 2.50, "output_per_1m_batch": 15.00,
+    "input_per_1m_cached": 0.25
+  },
+  "gpt-5.6-luna": {
+    "input_per_1m": 1.00, "output_per_1m": 6.00,
+    "input_per_1m_batch": 0.50, "output_per_1m_batch": 3.00,
+    "input_per_1m_cached": 0.05
+  },
+  "gpt-5.6-terra": {
+    "input_per_1m": 2.50, "output_per_1m": 15.00,
+    "input_per_1m_batch": 1.25, "output_per_1m_batch": 7.50,
+    "input_per_1m_cached": 0.125
+  },
+
+  "claude-opus-5": {
+    "input_per_1m": 5.00, "output_per_1m": 25.00,
+    "input_per_1m_batch": 2.50, "output_per_1m_batch": 12.50
+  },
+  "claude-sonnet-5": {
+    "input_per_1m": 2.00, "output_per_1m": 10.00,
+    "input_per_1m_batch": 1.00, "output_per_1m_batch": 5.00,
+    "_promotional": "INTRODUCTORY pricing, in effect through 2026-08-31 only. From 2026-09-01 the standard rate is 3.00 / 15.00 (batch 1.50 / 7.50). If the run lands before 1 Sep, these are the correct billed rates, but the paper's cost table MUST label them promotional and give the standard rate alongside, or the comparison silently flatters Sonnet 5 to any reader after that date."
+  },
+  "claude-haiku-4-5": {
+    "input_per_1m": 1.00, "output_per_1m": 5.00,
+    "input_per_1m_batch": 0.50, "output_per_1m_batch": 2.50
+  },
+
+  "gemini-3.6-flash": {
+    "input_per_1m": 1.50, "output_per_1m": 7.50,
+    "input_per_1m_batch": 0.75, "output_per_1m_batch": 3.75,
+    "input_per_1m_cached": 0.15,
+    "_free_tier": "CORRECTED 2026-07-27: the free-tier daily cap on this model is 20 requests/day, NOT the ~1,500 previously noted here. Measured from the API's own quota violation: quotaId GenerateRequestsPerDayPerProjectPerModel-FreeTier, quotaValue 20. A 281-query split therefore CANNOT be run on free quota; it needs billing enabled (est. ~$5.75 at list for the test split). These LIST rates are still what gets logged into cost_usd either way, deliberately: a $0.00 row would make the cost-per-quality table meaningless. Free quota changes our bill, not the economics the paper compares."
+  },
+  "gemini-3.5-flash": {
+    "input_per_1m": 1.50, "output_per_1m": 9.00,
+    "input_per_1m_batch": 0.75, "output_per_1m_batch": 4.50,
+    "input_per_1m_cached": 0.15
+  },
+
+  "gpt-5.4": {"input_per_1m": 0, "output_per_1m": 0},
+  "gpt-5.4-mini": {"input_per_1m": 0, "output_per_1m": 0},
+  "gpt-5.4-nano": {"input_per_1m": 0, "output_per_1m": 0}
+}

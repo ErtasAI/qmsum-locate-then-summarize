@@ -1,0 +1,39 @@
+{
+  "run_name": "m3-fusion-lfm2.5-1.2b-seed101",
+  "config": "training-configs/v8-m3-fusion-lfm2.5-1.2b.yaml",
+  "base_model": "LiquidAI/LFM2.5-1.2B-Instruct",
+  "seed": 101,
+  "seed_is_protocol": false,
+  "dry_run": false,
+  "epochs": 3,
+  "n_train_examples": 1095,
+  "max_seq_len": 6144,
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05
+  },
+  "optimizer_steps": 207,
+  "train_loss": 1.757905,
+  "wall_clock_s": 20027.13,
+  "wall_clock_hms": "05h 33m 47s",
+  "s_per_step": 96.749,
+  "trainable_params": 11108352,
+  "total_params": 1181448960,
+  "trainable_pct": 0.9402,
+  "peak_vram_gb": 12.149,
+  "peak_vram_reserved_gb": 30.868,
+  "adapter_on_disk": {
+    "bytes": 49296214,
+    "mb": 49.3,
+    "n_files": 7,
+    "largest_file": "adapter_model.safetensors",
+    "largest_file_mb": 44.46
+  },
+  "gpu_name": "NVIDIA GeForce RTX 5070 Ti",
+  "gpu_memory_used_mib_at_start": 0,
+  "contended": false,
+  "torch_version": "2.11.0+cu128",
+  "pytorch_cuda_alloc_conf": null,
+  "empty_cache_every": null
+}

@@ -1,0 +1,22 @@
+{
+  "run_id": "segenc-c8cont-e4-val-vram",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.37052103369178657,
+  "rouge2": 0.12226460290433273,
+  "rougeL": 0.2340393655281644,
+  "rougeLsum": 0.323330695351003,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 1.931,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": 272,
+  "peak_vram_gb_max": 2.655,
+  "peak_vram_gb_median": 2.655,
+  "peak_vram_gb_p95": 2.655,
+  "peak_vram_reserved_gb_max": 3.005,
+  "device": null,
+  "billing_mode": null,
+  "notes": "TASK 11 instrumentation re-run of the last (no-selection) span-trained SegEnc checkpoint. Identical settings to segenc-c8cont-e4-val; adds per-query peak VRAM. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

@@ -1,0 +1,14 @@
+{
+  "run_id": "baseline-claude-opus-5-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.28870092719810675,
+  "rouge2": 0.08430212149334043,
+  "rougeL": 0.16970047600090188,
+  "rougeLsum": 0.25013679578467823,
+  "bertscore_f1": 0.8521612286567688,
+  "cost_usd_total": 16.203222,
+  "latency_s_mean": null,
+  "billing_mode": "batch",
+  "notes": "zero-shot frontier baseline, untruncated (PROMPT_WORD_BUDGET 40000); non-reasoning regime (thinking disabled); batch API at 50% rate; temperature not expressible on Claude 5 (400), vendor default used | RLsum rescored 2026-07-27 under sentence segmentation (eval/scorer.py sentences()); R1/R2/RL unchanged."
+}

@@ -1,0 +1,22 @@
+{
+  "run_id": "segenc-port-full-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.3529605321456317,
+  "rouge2": 0.1187223778201048,
+  "rougeL": 0.23004530053517294,
+  "rougeLsum": 0.30563137948730607,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 4.565,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": 281,
+  "peak_vram_gb_max": 7.959,
+  "peak_vram_gb_median": 7.959,
+  "peak_vram_gb_p95": 7.959,
+  "peak_vram_reserved_gb_max": 8.598,
+  "device": null,
+  "billing_mode": null,
+  "notes": "SegEnc PORT, full-transcript regime, bf16, pad=True, 63 chunks, TEST split. Pre-declared calibration of the port offset (findings.md 'PORT CALIBRATION ON TEST, DECLARED 2026-08-04'). Calibration only, never a system row; the socratic row stays sourced from the authors' released predictions. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

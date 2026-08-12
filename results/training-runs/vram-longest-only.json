@@ -1,0 +1,26 @@
+{
+  "config": "training-configs/v8-m3-fusion-lfm2.5-1.2b.yaml",
+  "base_model": "LiquidAI/LFM2.5-1.2B-Instruct",
+  "max_seq_len": 6144,
+  "n_train_examples": 1095,
+  "token_length_min": 554,
+  "token_length_median": 2279,
+  "token_length_max": 4481,
+  "gpu_name": "NVIDIA GeForce RTX 5070 Ti",
+  "gpu_total_gb": 17.094,
+  "gpu_memory_used_mib_at_start": 0,
+  "resident_weights_floor": {
+    "peak_vram_gb": 1.17,
+    "peak_vram_reserved_gb": 1.29
+  },
+  "points": [
+    {
+      "tokens": 4481,
+      "words": 3086,
+      "peak_vram_gb": 11.866,
+      "peak_vram_reserved_gb": 13.378
+    }
+  ],
+  "failed_at": null,
+  "note": "Per-step peak for one example at each length, optimizer state resident. Floor for a full run, not a ceiling: Trainer holds additional state around this."
+}

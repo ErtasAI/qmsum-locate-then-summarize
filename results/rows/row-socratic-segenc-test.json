@@ -1,0 +1,18 @@
+{
+  "run_id": "row-socratic-segenc-test",
+  "split": "test",
+  "n": 281,
+  "rouge1": 0.38598160174747675,
+  "rouge2": 0.13914232633257717,
+  "rougeL": 0.24982894702579078,
+  "rougeLsum": 0.3371319758080526,
+  "bertscore_f1": 0.8737338185310364,
+  "cost_usd_total": null,
+  "latency_s_mean": null,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": null,
+  "device": null,
+  "billing_mode": null,
+  "notes": "Pagnoni et al. ACL 2023 Socratic-pretrained SegEnc, QMSum-finetuned. THEIR published test.predictions from Salesforce/socratic-pretraining-qmsum, scored by OUR frozen scorer. Authors report R1 38.48 on the same file; we get 38.60 (delta +0.12), which is both the alignment control and a measured cross-implementation ROUGE delta on identical predictions. No inference run by us."
+}

@@ -1,0 +1,18 @@
+{
+  "run_id": "segenc-spansft-e2-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.36573583859598674,
+  "rouge2": 0.12180768698313103,
+  "rougeL": 0.2353601625812115,
+  "rougeLsum": 0.32176134035002063,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 5.048,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": 272,
+  "device": null,
+  "billing_mode": null,
+  "notes": "SegEnc fine-tuned on span-regime data, epoch 2, evaluated on located spans (w375-l12, budget 2000). Removes the off-distribution confound in the input-regime ablation. Baselines: un-fine-tuned port 0.2900, our promoted system 0.3539. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}

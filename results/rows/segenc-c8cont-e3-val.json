@@ -1,0 +1,18 @@
+{
+  "run_id": "segenc-c8cont-e3-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.3696991791959968,
+  "rouge2": 0.11925117770996821,
+  "rougeL": 0.233377302926009,
+  "rougeLsum": 0.3219614397630218,
+  "bertscore_f1": null,
+  "cost_usd_total": 0.0,
+  "latency_s_mean": 1.793,
+  "locate_s_mean": null,
+  "generate_s_mean": null,
+  "latency_n_timed": 272,
+  "device": null,
+  "billing_mode": null,
+  "notes": "EXPERIMENT A: continued fine-tune from the matched-chunk (8) epoch-4 checkpoint, 4 more epochs at lr 1e-5. Effectively epochs 5-8. Finds whether the val curve turns over, since the first run peaked at its last epoch with loss still falling. LR schedule restarts on resume; this is a continued fine-tune, not one clean 8-epoch run. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+}
