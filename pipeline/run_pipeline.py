@@ -35,6 +35,39 @@ def build_pipeline_prompt(query, utterances, locate_fn, span_budget=None, chunk_
     span_text = protocol.truncate_words("\n".join(p["text"] for p in picked), budget)
     return protocol.PROMPT_TEMPLATE.format(query=query, transcript=span_text)
 
+def build_zeroshot_prompt(query, utterances, truncate_words):
+    """Prompt for the no-locator zero-shot cells (declared 2026-08-12).
+
+    The frozen template over the transcript truncated to a word budget: same content
+    contract as build_pipeline_prompt, with the locate stage replaced by fixed-budget
+    truncation. Used for base-model rows that measure what the pipeline looks like
+    with no locator in front of the model.
+    """
+    transcript = protocol.truncate_words(protocol.format_transcript(utterances), truncate_words)
+    return protocol.PROMPT_TEMPLATE.format(query=query, transcript=transcript)
+
+
+def arg_error(adapter, base_model, locator, truncate_words, locator_ckpt, chunk_words,
+              span_budget):
+    """Reject invalid model/locator combinations before any weights load.
+
+    Returns the error string or None. Pure so the contract is testable: exactly one
+    model source, and the truncated-transcript mode cannot silently combine with
+    locator-side settings whose provenance fields it would then misreport.
+    """
+    if (adapter is None) == (base_model is None):
+        return "exactly one of --adapter / --base-model is required"
+    if locator == "none":
+        if not truncate_words:
+            return "--locator none requires --truncate-words"
+        if locator_ckpt or chunk_words or span_budget:
+            return ("--locator none is incompatible with --locator-ckpt, --chunk-words "
+                    "and --span-budget; the truncated-transcript mode has no locator side")
+    elif truncate_words:
+        return "--truncate-words requires --locator none"
+    return None
+
+
 def build_gen_kwargs(min_new_tokens=None, num_beams=None, length_penalty=None,
                      no_repeat_ngram_size=None, early_stopping=None):
     """Decode config, plus the subset of it that counts as a protocol deviation.
@@ -67,9 +100,16 @@ def main():
     from transformers import AutoTokenizer
     from peft import AutoPeftModelForCausalLM
     ap = argparse.ArgumentParser()
-    ap.add_argument("--adapter", required=True)
+    ap.add_argument("--adapter", help="LoRA adapter path or repo (the system rows)")
+    ap.add_argument("--base-model",
+                    help="run a base model zero-shot with NO adapter (the ablation cells). "
+                         "The model gets its chat template; recorded in every prediction")
     ap.add_argument("--split", required=True, choices=["val", "test"])
-    ap.add_argument("--locator", default="crossencoder", choices=["embed", "crossencoder"])
+    ap.add_argument("--locator", default="crossencoder",
+                    choices=["embed", "crossencoder", "none"])
+    ap.add_argument("--truncate-words", type=int,
+                    help="with --locator none: feed the transcript truncated to this many "
+                         "words instead of located spans (e.g. protocol.M1_TRUNCATE_WORDS)")
     ap.add_argument("--span-budget", type=int, default=None,
                     help="override protocol.SPAN_BUDGET_WORDS (sweep axis; a protocol "
                          "deviation, record it in the run notes)")
@@ -96,19 +136,30 @@ def main():
                     help="path to a locator checkpoint other than the default "
                          "(deviation; e.g. checkpoints/locator-crossencoder-w375-l12)")
     a = ap.parse_args()
+    err = arg_error(a.adapter, a.base_model, a.locator, a.truncate_words,
+                    a.locator_ckpt, a.chunk_words, a.span_budget)
+    if err:
+        raise SystemExit(err)
+    locate = None
     if a.locator == "embed":
         from pipeline.locator_embed import select as locate
         if a.locator_ckpt:
             raise SystemExit("--locator-ckpt applies to the crossencoder locator only")
-    else:
+    elif a.locator == "crossencoder":
         from pipeline import locator_crossencoder as _lc
         if a.locator_ckpt:
             # Rebind before the lazy loader runs, so the override cannot be missed.
             _lc.CKPT, _lc._MODEL = pathlib.Path(a.locator_ckpt), None
         from pipeline.locator_crossencoder import select as locate
-    tok = AutoTokenizer.from_pretrained(a.adapter)
-    model = AutoPeftModelForCausalLM.from_pretrained(a.adapter, device_map="cuda",
+    if a.base_model:
+        from transformers import AutoModelForCausalLM
+        tok = AutoTokenizer.from_pretrained(a.base_model)
+        model = AutoModelForCausalLM.from_pretrained(a.base_model, device_map="cuda",
                                                      torch_dtype=torch.bfloat16)
+    else:
+        tok = AutoTokenizer.from_pretrained(a.adapter)
+        model = AutoPeftModelForCausalLM.from_pretrained(a.adapter, device_map="cuda",
+                                                         torch_dtype=torch.bfloat16)
     model.eval()
     gen_kwargs, deviations = build_gen_kwargs(a.min_new_tokens, a.num_beams,
                                               a.length_penalty, a.no_repeat_ngram_size,
@@ -138,12 +189,25 @@ def main():
             # split is visible and the total stays a true maximum over the query.
             vram.reset()
             _sync(); t0 = time.perf_counter()
-            prompt = build_pipeline_prompt(q["query"], meetings[q["meeting_id"]], locate,
-                                           a.span_budget, a.chunk_words)
+            if a.locator == "none":
+                prompt = build_zeroshot_prompt(q["query"], meetings[q["meeting_id"]],
+                                               a.truncate_words)
+            else:
+                prompt = build_pipeline_prompt(q["query"], meetings[q["meeting_id"]], locate,
+                                               a.span_budget, a.chunk_words)
             _sync(); t1 = time.perf_counter()
             peak_locate = vram.peak_gb()
 
-            ids = tok(prompt + " ", return_tensors="pt").to("cuda")
+            if a.base_model:
+                # Zero-shot base rows get the model's own chat template with the frozen
+                # template's text as the single user message, mirroring the frontier
+                # baselines' chat-API treatment (declared 2026-08-12).
+                ids = tok.apply_chat_template([{"role": "user", "content": prompt}],
+                                              add_generation_prompt=True,
+                                              return_tensors="pt",
+                                              return_dict=True).to("cuda")
+            else:
+                ids = tok(prompt + " ", return_tensors="pt").to("cuda")
             gen = model.generate(**ids, **gen_kwargs)
             _sync(); t2 = time.perf_counter()
 
@@ -159,6 +223,9 @@ def main():
                 "warmup": i == 0, "device": gpu,
                 **vram.record(),
                 **({"peak_vram_locate_gb": peak_locate} if peak_locate is not None else {}),
+                **({"base_model": a.base_model, "prompt_format": "chat"}
+                   if a.base_model else {}),
+                **({"truncate_words": a.truncate_words} if a.locator == "none" else {}),
                 **({"decode_deviations": deviations} if deviations else {})}) + "\n")
             del ids, gen
             torch.cuda.empty_cache()

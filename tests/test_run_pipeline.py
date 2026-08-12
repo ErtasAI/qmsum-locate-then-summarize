@@ -73,3 +73,48 @@ def test_a_zero_override_is_still_a_deviation_not_a_default():
     from pipeline.run_pipeline import build_gen_kwargs
     _, deviations = build_gen_kwargs(min_new_tokens=0)
     assert deviations == {"min_new_tokens": 0}
+
+
+# --- zero-shot base-model cells (declared 2026-08-12) ------------------------
+
+def test_zeroshot_prompt_is_the_frozen_template_over_a_truncated_transcript():
+    from pipeline.run_pipeline import build_zeroshot_prompt
+    from eval import protocol
+    utts = ([{"speaker": "A", "text": "opening decision content " * 30}]
+            + [{"speaker": "B", "text": "tail chatter " * 200}])
+    # 50 words lands inside the 91-word first line, so the second utterance is cut
+    # entirely and the budget provably binds.
+    p = build_zeroshot_prompt("What was decided?", utts, 50)
+    assert "Query: What was decided?" in p
+    assert "A: opening decision content" in p     # speaker formatting survives
+    assert "tail chatter" not in p                 # the budget cut the second utterance
+    # The transcript portion respects the word budget; template overhead is small.
+    assert len(p.split()) <= 50 + len(protocol.PROMPT_TEMPLATE.split()) + 10
+
+
+def test_exactly_one_model_source_is_required():
+    from pipeline.run_pipeline import arg_error
+    assert arg_error(None, None, "crossencoder", None, None, None, None)
+    assert arg_error("adapter", "base", "crossencoder", None, None, None, None)
+    assert arg_error("adapter", None, "crossencoder", None, None, None, None) is None
+    assert arg_error(None, "base", "crossencoder", None, None, None, None) is None
+
+
+def test_locator_none_requires_truncate_and_forbids_locator_side_settings():
+    """The truncated-transcript mode has no locator side. Letting locator settings
+    through would write provenance fields describing a stage that never ran."""
+    from pipeline.run_pipeline import arg_error
+    assert arg_error("adapter", None, "none", None, None, None, None)
+    assert arg_error("adapter", None, "none", 4500, "some-ckpt", None, None)
+    assert arg_error("adapter", None, "none", 4500, None, 375, None)
+    assert arg_error("adapter", None, "none", 4500, None, None, 2000)
+    assert arg_error("adapter", None, "none", 4500, None, None, None) is None
+    assert arg_error(None, "base", "none", 4500, None, None, None) is None
+
+
+def test_truncate_words_outside_locator_none_is_rejected():
+    """A located run with a stray truncation setting would be neither of the declared
+    cells; refuse it rather than record something ambiguous."""
+    from pipeline.run_pipeline import arg_error
+    assert arg_error("adapter", None, "crossencoder", 4500, None, None, None)
+    assert arg_error("adapter", None, "embed", 4500, None, None, None)

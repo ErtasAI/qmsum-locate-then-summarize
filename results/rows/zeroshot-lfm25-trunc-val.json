@@ -1,0 +1,22 @@
+{
+  "run_id": "zeroshot-lfm25-trunc-val",
+  "split": "val",
+  "n": 272,
+  "rouge1": 0.28705151948609126,
+  "rouge2": 0.05031238452524865,
+  "rougeL": 0.18208524992890887,
+  "rougeLsum": 0.24606301696837232,
+  "bertscore_f1": 0.8602319359779358,
+  "cost_usd_total": null,
+  "latency_s_mean": 2.078,
+  "locate_s_mean": 0.001,
+  "generate_s_mean": 2.078,
+  "latency_n_timed": 271,
+  "peak_vram_gb_max": 16.566,
+  "peak_vram_gb_median": 13.029,
+  "peak_vram_gb_p95": 15.351,
+  "peak_vram_reserved_gb_max": 16.733,
+  "device": "NVIDIA GeForce RTX 5070 Ti",
+  "billing_mode": null,
+  "notes": ""
+}

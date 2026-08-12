@@ -9,9 +9,11 @@
 | m3-fusion-lfm2.5-1.2b-test | test | 281 | 0.334 | 0.107 | 0.293 | 0.868 | 0.00 | 2.6 |  |
 | baseline-gpt-5.6-luna-test | test | 281 | 0.324 | 0.079 | 0.275 | 0.861 | 2.05 |  |  |
 | baseline-gpt-5.6-sol-test | test | 281 | 0.309 | 0.069 | 0.261 | 0.858 | 10.23 |  |  |
+| zeroshot-lfm25-spans-test | test | 281 | 0.301 | 0.067 | 0.250 | 0.869 |  | 1.2 | 5.59 |
 | baseline-claude-opus-5-test | test | 281 | 0.289 | 0.084 | 0.250 | 0.852 | 16.20 |  |  |
 | baseline-claude-haiku-4-5-test | test | 281 | 0.287 | 0.084 | 0.242 | 0.843 | 2.35 |  |  |
 | row-distilbart-test | test | 281 | 0.286 | 0.065 | 0.255 |  | 0.00 |  |  |
+| zeroshot-lfm25-trunc-test | test | 281 | 0.286 | 0.056 | 0.245 | 0.861 |  | 2.0 | 15.08 |
 | baseline-claude-sonnet-5-test | test | 281 | 0.279 | 0.075 | 0.240 | 0.848 | 6.50 |  |  |
 | row-bart-large-cnn-test | test | 281 | 0.273 | 0.056 | 0.241 |  | 0.00 |  |  |
 | row-pegasus-test | test | 281 | 0.201 | 0.044 | 0.172 |  | 0.00 |  |  |
@@ -47,6 +49,8 @@
 | m2-budget4000-val | val | 272 | 0.324 | 0.098 | 0.285 | 0.863 | 0.00 |  |  |
 | dialogled-large-fusion-val | val | 272 | 0.307 | 0.073 | 0.268 | 0.854 | 0.00 |  |  |
 | segenc-port-spans-val | val | 272 | 0.290 | 0.095 | 0.255 |  | 0.00 | 3.2 |  |
+| zeroshot-lfm25-spans-val | val | 272 | 0.290 | 0.060 | 0.244 | 0.866 |  | 1.2 | 5.70 |
+| zeroshot-lfm25-trunc-val | val | 272 | 0.287 | 0.050 | 0.246 | 0.860 |  | 2.1 | 16.57 |
 | m1-qwen3-1.7b-val | val | 272 | 0.227 | 0.062 | 0.194 | 0.830 | 0.00 |  |  |
 
 ## Cited numbers (different protocols, not comparable to our rows)

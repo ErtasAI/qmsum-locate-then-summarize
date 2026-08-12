@@ -68,6 +68,17 @@ python -m eval.run_eval --pred results/preds/repro-protocol-test.jsonl \
 For a two-minute path check before committing to the full split, add `--limit 5` to the
 pipeline command and `--allow-partial` to the scoring command.
 
+The two base-model ablation rows reproduce the same way, with `--base-model` in place of
+`--adapter` (no fine-tuned weights involved; the model gets its own chat template):
+
+```bash
+python -m pipeline.run_pipeline --base-model LiquidAI/LFM2.5-1.2B-Instruct --split test \
+    --locator crossencoder --locator-ckpt checkpoints/locator-crossencoder-w375-l12 \
+    --chunk-words 375 --span-budget 2000 --out results/preds/repro-zs-spans-test.jsonl
+python -m pipeline.run_pipeline --base-model LiquidAI/LFM2.5-1.2B-Instruct --split test \
+    --locator none --truncate-words 4500 --out results/preds/repro-zs-trunc-test.jsonl
+```
+
 ### Expected results
 
 Full official test split, n=281, greedy decoding:
@@ -100,9 +111,11 @@ was produced by us and scored by the same frozen scorer on the same official tes
 | **This system, protocol-exact** | **1.2B + 23M** | **3,000 located words** | **0.3339** | **0.1065** | **0.2930** | **0.8680** | **N/A** |
 | gpt-5.6-luna, zero-shot² | undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 | $2.05 |
 | gpt-5.6-sol, zero-shot² | undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 | $10.23 |
+| base LFM2.5-1.2B, zero-shot, our located spans⁴ | 1.2B + 33M | 2,000 located words | 0.3012 | 0.0670 | 0.2504 | 0.8687 | N/A |
 | claude-opus-5, zero-shot² | undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 | $16.20 |
 | claude-haiku-4-5, zero-shot² | undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 | $2.35 |
 | distilbart-cnn-12-6, community checkpoint³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | | N/A |
+| base LFM2.5-1.2B, zero-shot, truncated transcript⁴ | 1.2B | first 4,500 words | 0.2857 | 0.0555 | 0.2455 | 0.8607 | N/A |
 | claude-sonnet-5, zero-shot² | undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 | $6.50 |
 | bart-large-cnn, community checkpoint³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | | N/A |
 | pegasus-cnn, community checkpoint³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | | N/A |
@@ -126,8 +139,13 @@ in the loop: those rows run on local GPU time (a full-split run of this system t
 11 minutes on an RTX 5070 Ti).
 ³ Query-prefixed transcript truncated to each checkpoint's own encoder context
 (`eval/hf_rows.py`).
+⁴ The promoted system's ablation cells, pre-declared and run 2026-08-12: the same base model
+with no adapter, zero-shot under its own chat template. Fine-tune effect at identical retrieval:
++5.29 ROUGE-1, 95% CI [+4.02, +6.56]. Locator effect at fixed base model is split-dependent and
+the two splits are always quoted together: +1.55 [+0.58, +2.51] on test, +0.29 [-0.64, +1.19] on
+validation.
 
-Three orderings carry the paper:
+Four findings carry the paper:
 
 - **The fine-tuned 1.2B beats all five frontier zero-shot baselines on ROUGE-1 and
   BERTScore**, paired-bootstrap intervals excluding zero, while reading 2,000 located words
@@ -140,6 +158,11 @@ Three orderings carry the paper:
   indistinguishable from the 1.2B on every metric** (all intervals cross zero) at 2.9x fewer
   parameters and 2.16x less peak inference VRAM. Training regime and architecture outweigh
   scale, which is the paper's title claim.
+- **The distance between the system and its own base model is the fine-tune: +5.29 ROUGE-1 at
+  identical retrieval** (validation agrees at +6.39). Handing the untuned model located spans
+  instead of a truncated transcript moves quality by at most +1.55 (and the validation split
+  cannot distinguish it from zero), while cutting latency 1.8x and peak VRAM 2.9x, so the
+  locator's quality value appears only in combination with training on the regime.
 
 `results/CHART.md` holds every row the project scored, including the validation sweeps, plus
 a separate, deliberately incommensurable table of published numbers from the literature.
