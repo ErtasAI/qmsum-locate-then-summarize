@@ -169,6 +169,42 @@ a separate, deliberately incommensurable table of published numbers from the lit
 Published QMSum numbers use ROUGE implementations the benchmark never specified, so they must
 never share a column with these rows; the paper measures the cross-implementation delta.
 
+## The prompt
+
+Every generative row is produced from one template, frozen in `eval/protocol.py` and asserted
+byte for byte by `tests/test_protocol_frozen.py`, so a replication never has to reconstruct it
+from a description:
+
+```text
+You are given a meeting transcript and a query. Answer the query with a concise summary based only on the transcript.
+
+Query: {query}
+
+Transcript:
+{transcript}
+
+Summary:
+```
+
+The first sentence is a single line in the source; the blank lines are part of the template.
+`{transcript}` is meeting text rendered one utterance per line as `speaker: text`
+(`protocol.format_transcript`), and what fills it is the only difference between conditions:
+
+| Rows | `{transcript}` contents | How the model receives it |
+|---|---|---|
+| System rows (adapter) | Located windows in transcript order, truncated to the span budget: 2,000 words promoted, 3,000 protocol-exact | Raw completion: the filled template plus one trailing space, tokenized directly; the model continues after `Summary: ` (`pipeline/run_pipeline.py`) |
+| Frontier baselines | Full transcript under the 40,000-word budget, which binds on no transcript in either split | Sole user message of a chat request, no system message (`eval/baselines_openai.py`, `eval/baselines_anthropic.py`) |
+| Base-model ablation cells | Located spans, or the transcript truncated to 4,500 words (`--locator none --truncate-words 4500`) | Sole user message through the model's own chat template (`--base-model` path in `pipeline/run_pipeline.py`) |
+
+Training uses the identical construction: filled template plus one space, loss masked to the
+response tokens, EOS appended (`encode` in `training/train_lora.py`), so the prompt bytes at
+inference match the prompt bytes at training. The DialogLED baseline trains and evaluates on the
+filled template as its encoder input (`training/train_seq2seq.py`). Two row families use their
+own input formats instead: the community checkpoints take `query </s> transcript` matching their
+published fine-tuning convention (`eval/hf_rows.py`), and the SegEnc rows use that architecture's
+own query encoding (`eval/segenc.py`). The locator consumes raw query and window text pairs, with
+no prompt template involved (`pipeline/locator_crossencoder.py`).
+
 ## Optional legs (API keys)
 
 The frontier baselines and the fact-level judge are re-runnable but need keys. Copy
