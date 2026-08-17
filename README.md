@@ -258,7 +258,15 @@ step: 351 passed, 2 skipped.
   [salesforce/query-focused-sum](https://github.com/salesforce/query-focused-sum).
 - **Models:** each released artifact carries its licence on its Hub page. The locators are
   Apache 2.0; the summarizer adapter inherits the LFM Open License v1.0 from its base model,
-  which caps free commercial use at US$10M annual revenue.
+  which caps free commercial use at US$10M annual revenue; the span-trained SegEnc inherits
+  BSD 3-Clause from `Salesforce/socratic-pretraining-qmsum`.
+- **Third-party predictions:** `results/preds/row-socratic-segenc-{test,val}.jsonl` hold the
+  prediction files released with
+  [`Salesforce/socratic-pretraining-qmsum`](https://huggingface.co/Salesforce/socratic-pretraining-qmsum)
+  (Pagnoni et al., ACL 2023), rescored here under our own protocol. They are redistributed under
+  that model's BSD 3-Clause licence, whose text, conditions and disclaimer are retained at
+  `external/query-focused-sum/LICENSE.txt` (Copyright (c) 2021, Salesforce.com, Inc.). Neither the
+  name of Salesforce.com nor the names of its contributors are used to endorse this work.
 - **Data:** QMSum is MIT; it draws on the AMI and ICSI meeting corpora (CC BY 4.0). This repo
   redistributes no transcript text; `data/download_qmsum.py` fetches it from the official
   QMSum repo.
