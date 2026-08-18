@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs claude-opus-5, zero-shot",
+  "paper_section": "6.4",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "baseline-claude-opus-5-test",
+    "preds": "results/preds/baseline-claude-opus-5-test.jsonl",
+    "sha256": "08dd37e0ec9151186358925456c6243b06f860c19c41f09646d9c7d39621a8cd"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.8521612445654818,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.021113540566264577,
+  "ci95_low": 0.01889467387861199,
+  "ci95_high": 0.023300954879815095,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 250,
+  "per_query_a_wins": 31,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.02127385139465332,
+  "crosses_zero": false
+}

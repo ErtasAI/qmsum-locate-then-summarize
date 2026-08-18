@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs bart-large-cnn, community checkpoint",
+  "paper_section": "none yet (backfilled 2026-08-17)",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "row-bart-large-cnn-test",
+    "preds": "results/preds/row-bart-large-cnn-test.jsonl",
+    "sha256": "d7cda32306311aeb097d0c004b070030673a7efd8e8ee0efd5bdc99a85628311"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.8513111561218615,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.02196362900988491,
+  "ci95_low": 0.019009912989741973,
+  "ci95_high": 0.02492192355763445,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 232,
+  "per_query_a_wins": 49,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.02246636152267456,
+  "crosses_zero": false
+}

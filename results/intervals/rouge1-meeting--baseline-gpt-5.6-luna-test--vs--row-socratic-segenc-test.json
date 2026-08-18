@@ -1,0 +1,35 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "published Socratic SegEnc predictions vs gpt-5.6-luna, zero-shot",
+  "paper_section": "7.5",
+  "metric": "rouge1",
+  "split": "test",
+  "resampling_unit": "meeting",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "baseline-gpt-5.6-luna-test",
+    "preds": "results/preds/baseline-gpt-5.6-luna-test.jsonl",
+    "sha256": "3ea609cd3ce6e9f31e76efa453811e290df8666b5fd0617de78477864bf0dd66"
+  },
+  "b": {
+    "run_id": "row-socratic-segenc-test",
+    "preds": "results/preds/row-socratic-segenc-test.jsonl",
+    "sha256": "be68dad6b9f99a3eddd1beb499c217829c06ea4f4760b748218af58b1c6b84c0"
+  },
+  "n_shared": 281,
+  "n_clusters": 35,
+  "a_mean": 0.3243029471142055,
+  "b_mean": 0.38598160174747653,
+  "observed_diff": 0.06167865463327103,
+  "ci95_low": 0.048358006741299246,
+  "ci95_high": 0.07445816745161782,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 213,
+  "per_query_a_wins": 68,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.08129424748983824,
+  "crosses_zero": false
+}

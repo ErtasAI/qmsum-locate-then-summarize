@@ -1,0 +1,34 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs socratic-segenc, published 406M specialist",
+  "paper_section": "6.1",
+  "metric": "rouge1",
+  "split": "test",
+  "resampling_unit": "query",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "row-socratic-segenc-test",
+    "preds": "results/preds/row-socratic-segenc-test.jsonl",
+    "sha256": "be68dad6b9f99a3eddd1beb499c217829c06ea4f4760b748218af58b1c6b84c0"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.38598160174747653,
+  "b_mean": 0.3540622939825704,
+  "observed_diff": -0.031919307764906146,
+  "ci95_low": -0.04505497669703323,
+  "ci95_high": -0.01827721622802675,
+  "p_b_better": 0.0,
+  "per_query_b_wins": 103,
+  "per_query_a_wins": 178,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.07557932263814612,
+  "crosses_zero": false
+}

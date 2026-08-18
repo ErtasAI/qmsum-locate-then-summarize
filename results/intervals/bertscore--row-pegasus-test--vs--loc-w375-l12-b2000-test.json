@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs pegasus, community checkpoint",
+  "paper_section": "none yet (backfilled 2026-08-17)",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "row-pegasus-test",
+    "preds": "results/preds/row-pegasus-test.jsonl",
+    "sha256": "9fbe4487f5adb2de7677cbaab0b25cbd24a272efa934ccec46e6be856d95498e"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.8343752185645052,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.03889956656724114,
+  "ci95_low": 0.035240520998252256,
+  "ci95_high": 0.04244122407614548,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 257,
+  "per_query_a_wins": 24,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.038991689682006836,
+  "crosses_zero": false
+}

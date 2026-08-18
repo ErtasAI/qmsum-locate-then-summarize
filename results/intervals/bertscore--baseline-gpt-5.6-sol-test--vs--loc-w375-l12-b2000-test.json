@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs gpt-5.6-sol, zero-shot",
+  "paper_section": "6.4",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "baseline-gpt-5.6-sol-test",
+    "preds": "results/preds/baseline-gpt-5.6-sol-test.jsonl",
+    "sha256": "c6e46f3495a2061e238edd10adcfc332d938523fcf2dfadd0e991a05a01e609b"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.8582870302675457,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.014987754864200675,
+  "ci95_low": 0.012679093461019697,
+  "ci95_high": 0.017332288506192173,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 218,
+  "per_query_a_wins": 63,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.016078054904937744,
+  "crosses_zero": false
+}

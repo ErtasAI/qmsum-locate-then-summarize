@@ -20,9 +20,9 @@ the optimiser footprint to about 7 GB, which still fits comfortably. Paying that
 debugging a silently degraded fine-tune, and this repo has already been bitten once by a
 precision-dependent collapse (Pegasus under fp16).
 
-MEMORY. Gradient checkpointing is not optional: 63 chunks of 512 tokens is 32,256 encoder
-positions, which peaks at 18.19 GB without checkpointing and SPILLS to host memory on this card,
-against 4.18 GB with it.
+MEMORY. Gradient checkpointing is not optional. The reported recipe sets max_num_chunks=8;
+stride produces 15 chunks of 512 tokens. The stock checkpoint comparison separately retains
+the authors' max_num_chunks=32 setting (63 effective chunks).
 
 SELECTION DISCIPLINE. Checkpoints are saved per epoch and NOTHING is selected here. Selection runs
 afterwards on val in the real located-spans regime via `eval/segenc.py --mode spans`, and only then
@@ -40,7 +40,8 @@ from torch.utils.data import DataLoader, Dataset
 from transformers import BartTokenizerFast, get_linear_schedule_with_warmup, set_seed
 
 from eval import protocol
-from eval.segenc import BartForMultiConditionalGeneration, ChunkTokenizer, MAX_NUM_CHUNKS
+from eval.segenc import BartForMultiConditionalGeneration, ChunkTokenizer
+from training.segenc_recipe import evaluation_command
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MAX_TARGET_LEN = 256   # their --val_max_target_length
@@ -70,7 +71,7 @@ class SpanDataset(Dataset):
 
 def collate(batch):
     """Micro-batch is 1 by design: chunk counts are uniform under pad=True, but stacking several
-    63x512 examples would put activation memory back over the card."""
+    15x512 examples would put activation memory back over the card."""
     if len(batch) != 1:
         raise ValueError("micro-batch must be 1; raise --grad-accum instead")
     b = batch[0]
@@ -85,11 +86,14 @@ def main():
     ap.add_argument("--train-file", default="data/built/segenc-spans.train.jsonl")
     ap.add_argument("--out", default="checkpoints/segenc-spans")
     ap.add_argument("--epochs", type=int, default=4)
+    ap.add_argument("--epoch-offset", type=int, default=0,
+                    help="absolute epoch number of the loaded checkpoint; continuation uses 4")
     ap.add_argument("--lr", type=float, default=3e-5,
                     help="lower than a from-scratch BART fine-tune: this CONTINUES from an "
                          "already-QMSum-tuned checkpoint and only needs to move regime")
     ap.add_argument("--grad-accum", type=int, default=8)
-    ap.add_argument("--max-num-chunks", type=int, default=MAX_NUM_CHUNKS)
+    ap.add_argument("--max-num-chunks", type=int, default=8,
+                    help="8 plus stride gives the reported 15 effective chunks")
     ap.add_argument("--warmup-ratio", type=float, default=0.1)
     ap.add_argument("--limit", type=int, help="smoke test on the first N examples")
     a = ap.parse_args()
@@ -117,9 +121,12 @@ def main():
     print(f"{len(ds)} examples, {a.epochs} epochs, grad_accum {a.grad_accum}, "
           f"{total_steps} optimizer steps, lr {a.lr}", flush=True)
 
-    history = []
+    history_path = out_root / "history.json"
+    history = (json.loads(history_path.read_text(encoding="utf-8"))
+               if history_path.exists() else [])
     step = 0
-    for epoch in range(1, a.epochs + 1):
+    for local_epoch in range(1, a.epochs + 1):
+        epoch = a.epoch_offset + local_epoch
         t0, running, n = time.perf_counter(), 0.0, 0
         opt.zero_grad(set_to_none=True)
         for i, batch in enumerate(dl):
@@ -147,14 +154,12 @@ def main():
         history.append({"epoch": epoch, "mean_train_loss": round(mean_loss, 4),
                         "seconds": round(elapsed, 1), "checkpoint": str(ckpt)})
         print(f"epoch {epoch}: loss {mean_loss:.4f}, {elapsed / 60:.1f} min -> {ckpt}", flush=True)
-        (out_root / "history.json").write_text(json.dumps(history, indent=2))
+        history_path.write_text(json.dumps(history, indent=2) + "\n", encoding="utf-8")
 
     print("\nNothing selected here by design. Next, on VAL in the located-spans regime:")
-    for h in history:
-        print(f"  python -m eval.segenc --model-dir {h['checkpoint']} --split val --mode spans "
-              f"--bf16 --span-budget 2000 --chunk-words 375 "
-              f"--locator-ckpt checkpoints/locator-crossencoder-w375-l12 "
-              f"--out results/preds/segenc-spansft-e{h['epoch']}-val.jsonl")
+    for h in history[-a.epochs:]:
+        print("  " + " ".join(evaluation_command(
+            h["checkpoint"], h["epoch"], a.max_num_chunks)))
     print("Baselines to beat: the un-fine-tuned port at 0.2900 val on this regime, and our own "
           "promoted system at 0.3539. Pick on val, then ONE test touch.")
 

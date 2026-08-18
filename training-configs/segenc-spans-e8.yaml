@@ -1,0 +1,18 @@
+# Exact span-trained SegEnc lineage reported in the paper. With stride enabled,
+# max_num_chunks=8 produces 8 + 7 = 15 encoder chunks per example.
+train_file: data/built/segenc-spans.train.jsonl
+out: checkpoints/segenc-spans-c8
+max_num_chunks: 8
+grad_accum: 8
+warmup_ratio: 0.1
+stages:
+  - name: initial
+    base: results/external/socratic-qmsum
+    epochs: 4
+    lr: 0.00003
+    epoch_offset: 0
+  - name: continuation
+    base: checkpoints/segenc-spans-c8/epoch4
+    epochs: 4
+    lr: 0.00001
+    epoch_offset: 4

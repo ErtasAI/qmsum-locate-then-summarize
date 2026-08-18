@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs led-base, community checkpoint",
+  "paper_section": "none yet (backfilled 2026-08-17)",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "row-led-base-test",
+    "preds": "results/preds/row-led-base-test.jsonl",
+    "sha256": "0f5335f6295c6205782868fe3ade6409c86af37c0b8e22e3ab2999d9fd3e2afc"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.7817749495608103,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.0914998355709361,
+  "ci95_low": 0.08660283758971188,
+  "ci95_high": 0.09644446148142694,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 277,
+  "per_query_a_wins": 4,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.09646868705749512,
+  "crosses_zero": false
+}

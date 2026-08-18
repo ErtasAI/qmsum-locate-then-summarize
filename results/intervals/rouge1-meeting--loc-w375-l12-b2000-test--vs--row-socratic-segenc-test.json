@@ -1,0 +1,35 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "published Socratic SegEnc predictions vs ours, promoted",
+  "paper_section": "7.5",
+  "metric": "rouge1",
+  "split": "test",
+  "resampling_unit": "meeting",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "b": {
+    "run_id": "row-socratic-segenc-test",
+    "preds": "results/preds/row-socratic-segenc-test.jsonl",
+    "sha256": "be68dad6b9f99a3eddd1beb499c217829c06ea4f4760b748218af58b1c6b84c0"
+  },
+  "n_shared": 281,
+  "n_clusters": 35,
+  "a_mean": 0.3540622939825704,
+  "b_mean": 0.38598160174747653,
+  "observed_diff": 0.03191930776490619,
+  "ci95_low": 0.02014250006191889,
+  "ci95_high": 0.044726972618493344,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 178,
+  "per_query_a_wins": 103,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.07557932263814612,
+  "crosses_zero": false
+}

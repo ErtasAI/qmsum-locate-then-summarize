@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="790" viewBox="0 0 1040 790" role="img" aria-labelledby="title desc">
+<title id="title">ROUGE-1 comparison under one frozen QMSum scorer</title>
+<desc id="desc">Sorted horizontal bars compare locally executable systems and zero-shot frontier models. Bars include parameter size labels.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g font-family="Georgia, Times New Roman, serif" fill="#111111">
+<line x1="270.00" y1="34" x2="270.00" y2="612" stroke="#d9d9d9" stroke-width="1"/>
+<text x="270.00" y="633" text-anchor="middle" font-size="13">0</text>
+<line x1="424.65" y1="34" x2="424.65" y2="612" stroke="#d9d9d9" stroke-width="1"/>
+<text x="424.65" y="633" text-anchor="middle" font-size="13">10</text>
+<line x1="579.30" y1="34" x2="579.30" y2="612" stroke="#d9d9d9" stroke-width="1"/>
+<text x="579.30" y="633" text-anchor="middle" font-size="13">20</text>
+<line x1="733.95" y1="34" x2="733.95" y2="612" stroke="#d9d9d9" stroke-width="1"/>
+<text x="733.95" y="633" text-anchor="middle" font-size="13">30</text>
+<line x1="888.60" y1="34" x2="888.60" y2="612" stroke="#d9d9d9" stroke-width="1"/>
+<text x="888.60" y="633" text-anchor="middle" font-size="13">40</text>
+<text x="258" y="60.0" text-anchor="end" font-size="14">span-trained SegEnc</text>
+<rect data-run-id="segenc-c8cont-e4-test" x="270" y="42" width="561.90" height="26" fill="#0072B2"/>
+<text x="280" y="59.5" fill="#ffffff" font-size="12.5" font-weight="600">406M</text>
+<text x="839.90" y="60.0" font-size="13">36.33</text>
+<text x="258" y="98.0" text-anchor="end" font-size="14">ours, promoted</text>
+<rect data-run-id="loc-w375-l12-b2000-test" x="270" y="80" width="547.56" height="26" fill="#0072B2"/>
+<text x="280" y="97.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 33M</text>
+<text x="825.56" y="98.0" font-size="13">35.41</text>
+<text x="258" y="129.0" text-anchor="end" font-size="13"><tspan x="258" dy="0">stock Socratic SegEnc</tspan><tspan x="258" dy="14">(our port)</tspan></text>
+<rect data-run-id="segenc-port-full-test" x="270" y="118" width="545.86" height="26" fill="#CC79A7"/>
+<text x="280" y="135.5" fill="#ffffff" font-size="12.5" font-weight="600">406M</text>
+<text x="823.86" y="136.0" font-size="13">35.30</text>
+<text x="258" y="174.0" text-anchor="end" font-size="14">ours, protocol-exact</text>
+<rect data-run-id="m3-fusion-lfm2.5-1.2b-test" x="270" y="156" width="516.45" height="26" fill="#0072B2"/>
+<text x="280" y="173.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 22.7M</text>
+<text x="794.45" y="174.0" font-size="13">33.39</text>
+<text x="258" y="212.0" text-anchor="end" font-size="14">gpt-5.6-luna</text>
+<rect data-run-id="baseline-gpt-5.6-luna-test" x="270" y="194" width="501.54" height="26" fill="#009E73"/>
+<text x="280" y="211.5" fill="#ffffff" font-size="12.5" font-weight="600">Size undisclosed</text>
+<text x="779.54" y="212.0" font-size="13">32.43</text>
+<text x="258" y="250.0" text-anchor="end" font-size="14">gpt-5.6-sol</text>
+<rect data-run-id="baseline-gpt-5.6-sol-test" x="270" y="232" width="478.18" height="26" fill="#009E73"/>
+<text x="280" y="249.5" fill="#ffffff" font-size="12.5" font-weight="600">Size undisclosed</text>
+<text x="756.18" y="250.0" font-size="13">30.92</text>
+<text x="258" y="288.0" text-anchor="end" font-size="14">base LFM2.5, our spans</text>
+<rect data-run-id="zeroshot-lfm25-spans-test" x="270" y="270" width="465.75" height="26" fill="#CC79A7"/>
+<text x="280" y="287.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 33M</text>
+<text x="743.75" y="288.0" font-size="13">30.12</text>
+<text x="258" y="326.0" text-anchor="end" font-size="14">claude-opus-5</text>
+<rect data-run-id="baseline-claude-opus-5-test" x="270" y="308" width="446.48" height="26" fill="#009E73"/>
+<text x="280" y="325.5" fill="#ffffff" font-size="12.5" font-weight="600">Size undisclosed</text>
+<text x="724.48" y="326.0" font-size="13">28.87</text>
+<text x="258" y="364.0" text-anchor="end" font-size="14">claude-haiku-4-5</text>
+<rect data-run-id="baseline-claude-haiku-4-5-test" x="270" y="346" width="443.27" height="26" fill="#009E73"/>
+<text x="280" y="363.5" fill="#ffffff" font-size="12.5" font-weight="600">Size undisclosed</text>
+<text x="721.27" y="364.0" font-size="13">28.66</text>
+<text x="258" y="402.0" text-anchor="end" font-size="14">distilbart</text>
+<rect data-run-id="row-distilbart-test" x="270" y="384" width="443.06" height="26" fill="#999999"/>
+<text x="280" y="401.5" fill="#ffffff" font-size="12.5" font-weight="600">306M</text>
+<text x="721.06" y="402.0" font-size="13">28.65</text>
+<text x="258" y="440.0" text-anchor="end" font-size="14">base LFM2.5, truncated</text>
+<rect data-run-id="zeroshot-lfm25-trunc-test" x="270" y="422" width="441.82" height="26" fill="#CC79A7"/>
+<text x="280" y="439.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B</text>
+<text x="719.82" y="440.0" font-size="13">28.57</text>
+<text x="258" y="478.0" text-anchor="end" font-size="14">claude-sonnet-5</text>
+<rect data-run-id="baseline-claude-sonnet-5-test" x="270" y="460" width="431.27" height="26" fill="#009E73"/>
+<text x="280" y="477.5" fill="#ffffff" font-size="12.5" font-weight="600">Size undisclosed</text>
+<text x="709.27" y="478.0" font-size="13">27.89</text>
+<text x="258" y="516.0" text-anchor="end" font-size="14">bart-large-cnn</text>
+<rect data-run-id="row-bart-large-cnn-test" x="270" y="498" width="422.51" height="26" fill="#999999"/>
+<text x="280" y="515.5" fill="#ffffff" font-size="12.5" font-weight="600">406M</text>
+<text x="700.51" y="516.0" font-size="13">27.32</text>
+<text x="258" y="554.0" text-anchor="end" font-size="14">pegasus</text>
+<rect data-run-id="row-pegasus-test" x="270" y="536" width="310.77" height="26" fill="#999999"/>
+<text x="280" y="553.5" fill="#ffffff" font-size="12.5" font-weight="600">570M</text>
+<text x="588.77" y="554.0" font-size="13">20.09</text>
+<text x="258" y="592.0" text-anchor="end" font-size="14">led-base</text>
+<rect data-run-id="row-led-base-test" x="270" y="574" width="145.48" height="26" fill="#999999"/>
+<text x="280" y="591.5" fill="#ffffff" font-size="12.5" font-weight="600">162M</text>
+<text x="423.48" y="592.0" font-size="13">9.41</text>
+<line x1="270" y1="612" x2="935" y2="612" stroke="#111111" stroke-width="1"/>
+<text x="602.5" y="660" text-anchor="middle" font-size="15">ROUGE-1, official test split (n=281), one frozen scorer</text>
+<rect x="270" y="687" width="20" height="13" fill="#0072B2"/>
+<text x="299" y="699" font-size="13">our fine-tuned systems</text>
+<rect x="600" y="687" width="20" height="13" fill="#009E73"/>
+<text x="629" y="699" font-size="13">2026 frontier, zero-shot</text>
+<rect x="270" y="715" width="20" height="13" fill="#999999"/>
+<text x="299" y="727" font-size="13">community checkpoint</text>
+<rect x="600" y="715" width="20" height="13" fill="#CC79A7"/>
+<text x="629" y="727" font-size="13">stock / base checkpoint</text>
+</g>
+</svg>

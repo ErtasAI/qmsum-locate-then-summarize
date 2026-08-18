@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs span-trained SegEnc, 406M",
+  "paper_section": "7.5",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "segenc-c8cont-e4-test",
+    "preds": "results/preds/segenc-c8cont-e4-test.jsonl",
+    "sha256": "d2a9c76554dceabeeb7d7c0a193a30a151319a026cce70b784095069a1910a49"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.871033851362208,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.002240933769538378,
+  "ci95_low": -0.00011648020286159078,
+  "ci95_high": 0.004626581677338426,
+  "p_b_better": 0.969,
+  "per_query_b_wins": 147,
+  "per_query_a_wins": 134,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.01101541519165039,
+  "crosses_zero": true
+}

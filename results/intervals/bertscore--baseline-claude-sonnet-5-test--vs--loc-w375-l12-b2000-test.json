@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs claude-sonnet-5, zero-shot",
+  "paper_section": "6.4",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "baseline-claude-sonnet-5-test",
+    "preds": "results/preds/baseline-claude-sonnet-5-test.jsonl",
+    "sha256": "686ab1ea66e0442333d8772f729b5f51c230a23acaacf320b6670a9628a2d5ce"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.8477881357763162,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.025486649355430213,
+  "ci95_low": 0.023221336225597855,
+  "ci95_high": 0.027711366631382295,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 262,
+  "per_query_a_wins": 19,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.024729907512664795,
+  "crosses_zero": false
+}

@@ -1,0 +1,34 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs distilbart, community checkpoint",
+  "paper_section": "6.1",
+  "metric": "rouge1",
+  "split": "test",
+  "resampling_unit": "query",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "row-distilbart-test",
+    "preds": "results/preds/row-distilbart-test.jsonl",
+    "sha256": "03c11ccfcae7b654dbd6ca05b12a22355da17c10e6a8bcc0cf8750e1abd3e11e"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.2864870473550734,
+  "b_mean": 0.3540622939825704,
+  "observed_diff": 0.06757524662749698,
+  "ci95_low": 0.052412158578103996,
+  "ci95_high": 0.0829865885918798,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 183,
+  "per_query_a_wins": 98,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.07729929619467962,
+  "crosses_zero": false
+}

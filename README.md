@@ -1,8 +1,8 @@
-# QMSum locate-then-summarize
+# Training on retrieved spans for QMSum
 
 Code, frozen protocol, per-query predictions and released models for the paper
-*Locate-then-summarize on QMSum: training regime and architecture outweigh scale in
-query-focused multi-domain meeting summarization* (Ertas AI, in preparation).
+*Training on retrieved spans enables efficient query-focused meeting summarization on QMSum*
+(Ertas AI, in preparation).
 
 The system is a two-stage pipeline for query-focused meeting summarization on
 [QMSum](https://github.com/Yale-LILY/QMSum): a cross-encoder **locator** scores fixed-width
@@ -19,9 +19,12 @@ one frozen scorer.
 | Summarizer LoRA adapter | [ErtasAI/qmsum-summarizer-lfm2.5-1.2b-lora](https://huggingface.co/ErtasAI/qmsum-summarizer-lfm2.5-1.2b-lora) | `7d73ab65` |
 | Locator, promoted (L12, 375-word windows) | [ErtasAI/qmsum-locator-minilm-l12-w375](https://huggingface.co/ErtasAI/qmsum-locator-minilm-l12-w375) | `f54ed53f` |
 | Locator, protocol-exact (L6, 900-word windows) | [ErtasAI/qmsum-locator-minilm-l6-w900](https://huggingface.co/ErtasAI/qmsum-locator-minilm-l6-w900) | `a1b9e64d` |
+| Span-trained SegEnc, effective epoch 8 | [ErtasAI/qmsum-summarizer-segenc-406m-spans](https://huggingface.co/ErtasAI/qmsum-summarizer-segenc-406m-spans) | `26abdfc1` |
+| Stock Socratic SegEnc (third party) | [Salesforce/socratic-pretraining-qmsum](https://huggingface.co/Salesforce/socratic-pretraining-qmsum) | `d127cbc5` |
 
-`scripts/fetch_artifacts.py` downloads all three at exactly these revisions and verifies each
-weight file's SHA256, so what you run is what the paper measured.
+`scripts/fetch_artifacts.py` downloads the three pipeline artifacts by default. Add
+`--include-comparisons` to fetch both SegEnc checkpoints as well. Every download is pinned to
+the revision above and its weight file is verified by SHA256.
 
 ## Replicate the headline rows
 
@@ -79,6 +82,37 @@ python -m pipeline.run_pipeline --base-model LiquidAI/LFM2.5-1.2B-Instruct --spl
     --locator none --truncate-words 4500 --out results/preds/repro-zs-trunc-test.jsonl
 ```
 
+### Reproduce the executable SegEnc comparison
+
+Fetch the optional comparison checkpoints, then retain each checkpoint's own chunk regime:
+
+```bash
+python scripts/fetch_artifacts.py --include-comparisons
+
+# Stock Salesforce checkpoint, full-transcript regime: 35.30 ROUGE-1 in our port
+python -m eval.segenc --model-dir results/external/socratic-qmsum \
+    --split test --mode full --bf16 --max-num-chunks 32 \
+    --out results/preds/repro-segenc-stock-test.jsonl
+
+# Our span-trained checkpoint, locator-packed spans at inference: 36.33 ROUGE-1
+python -m eval.segenc --model-dir checkpoints/segenc-spans-c8/epoch8 \
+    --split test --mode spans --bf16 --max-num-chunks 8 \
+    --span-budget 2000 --chunk-words 375 \
+    --locator-ckpt checkpoints/locator-crossencoder-w375-l12 \
+    --out results/preds/repro-segenc-spans-test.jsonl
+```
+
+Score either file with `python -m eval.run_eval` as in the headline path above. The released
+span-trained checkpoint is one lineage: four epochs at `3e-5`, followed by four continuation
+epochs from epoch 4 at `1e-5`. Its training examples use gold-overlapping span windows built by
+`data/build_segenc_data.py`, byte-identical to the span-regime summarizer training construction;
+inference uses locator-packed spans. The executable recipe is:
+
+```bash
+python -m training.segenc_recipe --dry-run  # inspect both exact stage commands
+python -m training.segenc_recipe            # run stages 1-4 then 5-8
+```
+
 ### Expected results
 
 Full official test split, n=281, greedy decoding:
@@ -103,37 +137,45 @@ The paper's headline findings are orderings, and they mean something because eve
 was produced by us and scored by the same frozen scorer on the same official test split
 (n=281). Sorted by ROUGE-1:
 
+![Figure 1: ROUGE-1 comparison under one frozen scorer](results/figure1-scale.svg)
+
+Figure 1 is an executable, apples-to-apples comparison: it uses the stock Socratic SegEnc
+checkpoint run through our port (35.30), not the 38.60 obtained by applying our scorer to the
+authors' released predictions. The latter remains in Table 1 below because it is the strongest
+published specialist result. `python results/build_figure1.py` deterministically rebuilds the
+SVG from `results/rows/`.
+
 | System | Params | Reads | R1 | R2 | R-Lsum | BERTScore | API cost, full split² |
 |---|---|---|---|---|---|---|---|
 | Socratic SegEnc (Pagnoni et al., ACL 2023), authors' released predictions¹ | 406M | transcript up to ~11.8k words | 0.3860 | 0.1391 | 0.3371 | 0.8737 | N/A |
-| SegEnc, retrained by us on located spans | 406M | 2,000 located words | 0.3633 | 0.1272 | 0.3217 | 0.8710 | N/A |
+| SegEnc, trained by us for the span regime | 406M | 2,000 locator-packed words at inference | 0.3633 | 0.1272 | 0.3217 | 0.8710 | N/A |
 | **This system, promoted configuration** | **1.2B + 33M** | **2,000 located words** | **0.3541** | **0.1228** | **0.3136** | **0.8733** | **N/A** |
 | **This system, protocol-exact** | **1.2B + 23M** | **3,000 located words** | **0.3339** | **0.1065** | **0.2930** | **0.8680** | **N/A** |
-| gpt-5.6-luna, zero-shot² | undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 | $2.05 |
-| gpt-5.6-sol, zero-shot² | undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 | $10.23 |
+| gpt-5.6-luna, zero-shot² | Size undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 | $2.05 |
+| gpt-5.6-sol, zero-shot² | Size undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 | $10.23 |
 | base LFM2.5-1.2B, zero-shot, our located spans⁴ | 1.2B + 33M | 2,000 located words | 0.3012 | 0.0670 | 0.2504 | 0.8687 | N/A |
-| claude-opus-5, zero-shot² | undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 | $16.20 |
-| claude-haiku-4-5, zero-shot² | undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 | $2.35 |
-| distilbart-cnn-12-6, community checkpoint³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | | N/A |
+| claude-opus-5, zero-shot² | Size undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 | $16.20 |
+| claude-haiku-4-5, zero-shot² | Size undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 | $2.35 |
+| distilbart-cnn-12-6, community checkpoint³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | 0.8546 | N/A |
 | base LFM2.5-1.2B, zero-shot, truncated transcript⁴ | 1.2B | first 4,500 words | 0.2857 | 0.0555 | 0.2455 | 0.8607 | N/A |
-| claude-sonnet-5, zero-shot² | undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 | $6.50 |
-| bart-large-cnn, community checkpoint³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | | N/A |
-| pegasus-cnn, community checkpoint³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | | N/A |
-| led-base, community checkpoint³ | 162M | truncated to model context | 0.0941 | 0.0237 | 0.0796 | | N/A |
+| claude-sonnet-5, zero-shot² | Size undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 | $6.50 |
+| bart-large-cnn, community checkpoint³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | 0.8513 | N/A |
+| pegasus-cnn, community checkpoint³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | 0.8344 | N/A |
+| led-base, community checkpoint³ | 162M | truncated to model context | 0.0941 | 0.0237 | 0.0796 | 0.7818 | N/A |
 
 ¹ The one row we did not generate: scored from the authors' released prediction files under our
-frozen scorer, gated on first reproducing their reported score. Their model reads the
-transcript up to its ~11,800-word training-time truncation. We also ran their released
-checkpoint end to end through our own harness (`eval/segenc.py` ports their model classes);
-that inference scores a stable 3.3 ROUGE-1 below what their released predictions score, an
-offset that survived ruling out precision and padding and is likeliest explained by the
-uploaded weights differing from the exact seed checkpoint behind their released predictions.
-That run ships as `results/rows/segenc-port-full-test.json`, marked calibration-only: quoting
-it as their system row would understate the strongest published specialist by an artifact of
-our port, so the headline row stays sourced from their own predictions.
+frozen scorer, gated on first reproducing their reported score. Their model reads the transcript
+up to its ~11,800-word training-time truncation. Running the stock released checkpoint end to end
+through our port scores 35.30, 3.3 ROUGE-1 below the released predictions. Precision and padding
+checks did not close the gap; it may arise from preprocessing, decoding, implementation, or
+checkpoint differences. We therefore use 35.30 only for within-port Figure 1 comparisons and
+retain 38.60 as the authors-prediction Table 1 result. Neither number is silently substituted for
+the other.
 ² Frontier baselines read the full untruncated transcript (the 40,000-word budget exceeds the
 longest transcript in the split), zero-shot, non-reasoning regime, same prompt template as
-ours. API cost is the batch price for the full 281-query split, recorded at collect time
+ours. Output length was not experimentally controlled across proprietary APIs, and the study
+includes no human or factuality evaluation; ROUGE and BERTScore should not be read as complete
+quality measures. API cost is the batch price for the full 281-query split, recorded at collect time
 (2026-07-27); per-row figures live in `cost_usd_total` in `results/rows/`. N/A means no API
 in the loop: those rows run on local GPU time (a full-split run of this system takes about
 11 minutes on an RTX 5070 Ti).
@@ -147,6 +189,14 @@ validation.
 
 Four findings carry the paper:
 
+The central ROUGE uncertainty analysis is a 10,000-draw meeting-cluster bootstrap over 35
+meetings, retaining all nested queries together. It keeps the headline conclusions while widening
+the intervals: ours versus gpt-5.6-luna is +2.98 [+1.39, +4.63], the published specialist's
+advantage over ours is +3.19 [+2.01, +4.47], its advantage over gpt-5.6-luna is +6.17
+[+4.84, +7.45], and span-trained SegEnc versus ours is +0.93 [-0.27, +2.22]. The exact records,
+prediction hashes, seed, and draw count are committed under `results/intervals/`; query-resampled
+supporting intervals are retained there separately.
+
 - **The fine-tuned 1.2B beats all five frontier zero-shot baselines on ROUGE-1 and
   BERTScore**, paired-bootstrap intervals excluding zero, while reading 2,000 located words
   against their full transcript.
@@ -154,10 +204,12 @@ Four findings carry the paper:
   It also beats this system by 3.2 ROUGE-1, an interval firmly excluding zero, while BERTScore
   cannot separate the two systems. That metric disagreement is one of the paper's measurement
   findings.
-- **The 406M SegEnc, retrained on the same located spans this system reads, is statistically
-  indistinguishable from the 1.2B on every metric** (all intervals cross zero) at 2.9x fewer
-  parameters and 2.16x less peak inference VRAM. Training regime and architecture outweigh
-  scale, which is the paper's title claim.
+- **The 406M SegEnc trained for the span regime is not statistically separated from the 1.2B
+  system on the reported metrics** (all intervals cross zero), but this does not establish
+  equivalence. Including the shared locator, it uses 2.8x fewer parameters and 2.16x less peak
+  inference VRAM. Its stock checkpoint falls from 35.30 on full transcripts to 29.00 on located
+  spans in our port, then training on the matched span construction raises it to 37.05 on
+  validation and 36.33 on test.
 - **The distance between the system and its own base model is the fine-tune: +5.29 ROUGE-1 at
   identical retrieval** (validation agrees at +6.39). Handing the untuned model located spans
   instead of a truncated transcript moves quality by at most +1.55 (and the validation split
@@ -223,19 +275,21 @@ python -m eval.run_eval --pred results/preds/baseline-gpt-5.6-luna-test.jsonl \
 |---|---|
 | `eval/protocol.py` | The frozen protocol: seed, budgets, prompt template. Locked 2026-07-23; `tests/test_protocol_frozen.py` enforces it |
 | `eval/scorer.py`, `eval/run_eval.py` | The frozen scorer (rouge-score 0.1.2, bert-score 0.3.13) and the row writer |
-| `eval/paired_bootstrap.py` | Paired bootstrap CIs for any two prediction files |
+| `eval/paired_bootstrap.py` | Query-paired and meeting-cluster bootstrap CIs for any two prediction files |
 | `pipeline/` | Chunker, both locators, and the end-to-end pipeline runner |
 | `training/train_lora.py` + `training-configs/` | QLoRA training with full instrumentation; one YAML per trained configuration |
 | `data/` | QMSum download, normalization, and training-data builders |
 | `results/rows/` | One JSON per scored run, the paper's tables' source of truth |
 | `results/preds/` | Per-query predictions for every row, including all baselines |
+| `results/intervals/` | Committed query and meeting-cluster intervals with prediction hashes |
 | `external/query-focused-sum/` | Ported model classes for the Socratic SegEnc comparison rows (BSD-3, Salesforce; licence retained) |
 | `tests/` | The test suite; `pytest` from the repo root |
 
 ## Retraining caveats, stated up front
 
 The released adapter is the artifact the paper measures; retraining does not reproduce it.
-Training-seed dispersion on this benchmark is 1.59 ROUGE-1, and on the 16 GB card the paper
+The only completed alternate summarizer seed gives a two-run observed range of 1.59 ROUGE-1;
+that is not an estimate of a training-seed distribution. On the 16 GB card the paper
 used, training runs in host-memory fallback: of four attempted seeds, one completed. Training
 takes about five and a half GPU-hours when it completes. The locators are cheap to retrain
 (about 7 and 1.5 minutes) but a retrain is likewise a different checkpoint. Use

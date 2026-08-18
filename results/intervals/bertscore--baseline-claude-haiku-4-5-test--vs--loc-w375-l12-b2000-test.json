@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs claude-haiku-4-5, zero-shot",
+  "paper_section": "6.4",
+  "metric": "bertscore",
+  "split": "test",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "baseline-claude-haiku-4-5-test",
+    "preds": "results/preds/baseline-claude-haiku-4-5-test.jsonl",
+    "sha256": "d7728e1f6021c95c7e41fa4009c62816b2c5354ad1166d18730efe71fa5cc4ae"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "a_mean": 0.8431148654201277,
+  "b_mean": 0.8732747851317464,
+  "observed_diff": 0.030159919711618688,
+  "ci95_low": 0.02795125263017273,
+  "ci95_high": 0.032326614517334096,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 268,
+  "per_query_a_wins": 13,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.030654549598693848,
+  "crosses_zero": false
+}

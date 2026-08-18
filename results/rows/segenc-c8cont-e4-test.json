@@ -18,5 +18,5 @@
   "peak_vram_reserved_gb_max": 3.014,
   "device": null,
   "billing_mode": null,
-  "notes": "THE one test touch for the span-trained 406M SegEnc. Last checkpoint (effective epoch 8), no selection: the val-best epoch was rejected as selection on noise. Same located spans as our promoted row (w375 locator, 2000-word budget), max_num_chunks 8. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+  "notes": "THE one test touch for the span-trained 406M SegEnc. Last checkpoint (effective epoch 8), no selection: the val-best epoch was rejected as selection on noise. Trained on gold-overlapping span windows matching our summarizer's span-regime data construction; evaluated on the same locator-packed spans as our promoted row (w375 locator, 2000-word budget), max_num_chunks 8 (15 effective chunks with stride). | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
 }

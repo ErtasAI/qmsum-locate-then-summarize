@@ -1,0 +1,35 @@
+{
+  "record_version": 1,
+  "generated": "2026-08-17",
+  "tool": "eval/interval_records.py",
+  "label": "ours, promoted vs gpt-5.6-luna, zero-shot",
+  "paper_section": "6.1",
+  "metric": "rouge1",
+  "split": "test",
+  "resampling_unit": "meeting",
+  "draws": 10000,
+  "seed": 20260723,
+  "a": {
+    "run_id": "baseline-gpt-5.6-luna-test",
+    "preds": "results/preds/baseline-gpt-5.6-luna-test.jsonl",
+    "sha256": "3ea609cd3ce6e9f31e76efa453811e290df8666b5fd0617de78477864bf0dd66"
+  },
+  "b": {
+    "run_id": "loc-w375-l12-b2000-test",
+    "preds": "results/preds/loc-w375-l12-b2000-test.jsonl",
+    "sha256": "15253adab192dc3d0ff130b5d6d6724a47565a5f29010f117e60eba4ab640454"
+  },
+  "n_shared": 281,
+  "n_clusters": 35,
+  "a_mean": 0.3243029471142055,
+  "b_mean": 0.3540622939825704,
+  "observed_diff": 0.029759346868364848,
+  "ci95_low": 0.013922174845699773,
+  "ci95_high": 0.046322960111539004,
+  "p_b_better": 1.0,
+  "per_query_b_wins": 167,
+  "per_query_a_wins": 114,
+  "per_query_ties": 0,
+  "median_abs_per_query_diff": 0.062874070491506,
+  "crosses_zero": false
+}

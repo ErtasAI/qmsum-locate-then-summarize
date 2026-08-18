@@ -1,7 +1,8 @@
 """Fetch the released model artifacts from the Hub at pinned revisions, verified by hash.
 
-Downloads the three artifacts every published system row depends on, into the exact
-local paths the pipeline's defaults and the paper's run ids reference:
+By default, downloads the three artifacts every published pipeline row depends on. Pass
+``--include-comparisons`` to also fetch the stock and span-trained SegEnc checkpoints used by
+the apples-to-apples comparison figure.
 
     Hub repo                                    -> local path
     ErtasAI/qmsum-summarizer-lfm2.5-1.2b-lora   -> checkpoints/m3-fusion-lfm2.5-1.2b/final
@@ -16,9 +17,11 @@ later force-push to a repo cannot silently change what this script installs.
 
 Usage:
     python scripts/fetch_artifacts.py
+    python scripts/fetch_artifacts.py --include-comparisons
 
 No API key needed; the repos are public.
 """
+import argparse
 import hashlib
 import pathlib
 import sys
@@ -27,7 +30,7 @@ from huggingface_hub import snapshot_download
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
-ARTIFACTS = [
+PIPELINE_ARTIFACTS = [
     {
         "repo": "ErtasAI/qmsum-summarizer-lfm2.5-1.2b-lora",
         "revision": "7d73ab6535ea4e33c352f46105649c195fa50543",
@@ -57,6 +60,31 @@ ARTIFACTS = [
     },
 ]
 
+COMPARISON_ARTIFACTS = [
+    {
+        "repo": "ErtasAI/qmsum-summarizer-segenc-406m-spans",
+        "revision": "26abdfc1b0373c21b54dfd5584eb432e9e9d0a40",
+        "dest": "checkpoints/segenc-spans-c8/epoch8",
+        "sha256": {
+            "model.safetensors":
+                "84ac9a6b86d6290fd37ff86ba5f0e3a10adadf8e89f265929817e524cd758013",
+        },
+    },
+    {
+        "repo": "Salesforce/socratic-pretraining-qmsum",
+        "revision": "d127cbc54b974a58e8bd75935f2863d136e0bc3d",
+        "dest": "results/external/socratic-qmsum",
+        "sha256": {
+            "pytorch_model.bin":
+                "5de3c9e7c4d9a274b423c44d018b8cc768dfd5ada7029c12af82076a20c3876d",
+        },
+    },
+]
+
+
+def artifacts_for(include_comparisons=False):
+    return PIPELINE_ARTIFACTS + (COMPARISON_ARTIFACTS if include_comparisons else [])
+
 
 def file_sha256(path, chunk=1 << 20):
     h = hashlib.sha256()
@@ -70,8 +98,12 @@ def file_sha256(path, chunk=1 << 20):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--include-comparisons", action="store_true",
+                        help="also fetch stock and span-trained SegEnc checkpoints (~3.2 GB)")
+    args = parser.parse_args()
     failures = 0
-    for a in ARTIFACTS:
+    for a in artifacts_for(args.include_comparisons):
         dest = ROOT / a["dest"]
         print(f"fetching {a['repo']} @ {a['revision'][:8]} -> {a['dest']}")
         snapshot_download(a["repo"], revision=a["revision"], local_dir=dest)

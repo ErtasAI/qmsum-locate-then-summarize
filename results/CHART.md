@@ -12,12 +12,12 @@
 | zeroshot-lfm25-spans-test | test | 281 | 0.301 | 0.067 | 0.250 | 0.869 |  | 1.2 | 5.59 |
 | baseline-claude-opus-5-test | test | 281 | 0.289 | 0.084 | 0.250 | 0.852 | 16.20 |  |  |
 | baseline-claude-haiku-4-5-test | test | 281 | 0.287 | 0.084 | 0.242 | 0.843 | 2.35 |  |  |
-| row-distilbart-test | test | 281 | 0.286 | 0.065 | 0.255 |  | 0.00 |  |  |
+| row-distilbart-test | test | 281 | 0.286 | 0.065 | 0.255 | 0.855 | 0.00 |  |  |
 | zeroshot-lfm25-trunc-test | test | 281 | 0.286 | 0.056 | 0.245 | 0.861 |  | 2.0 | 15.08 |
 | baseline-claude-sonnet-5-test | test | 281 | 0.279 | 0.075 | 0.240 | 0.848 | 6.50 |  |  |
-| row-bart-large-cnn-test | test | 281 | 0.273 | 0.056 | 0.241 |  | 0.00 |  |  |
-| row-pegasus-test | test | 281 | 0.201 | 0.044 | 0.172 |  | 0.00 |  |  |
-| row-led-base-test | test | 281 | 0.094 | 0.024 | 0.080 |  | 0.00 |  |  |
+| row-bart-large-cnn-test | test | 281 | 0.273 | 0.056 | 0.241 | 0.851 | 0.00 |  |  |
+| row-pegasus-test | test | 281 | 0.201 | 0.044 | 0.172 | 0.834 | 0.00 |  |  |
+| row-led-base-test | test | 281 | 0.094 | 0.024 | 0.080 | 0.782 | 0.00 |  |  |
 | row-socratic-segenc-val | val | 272 | 0.386 | 0.134 | 0.340 |  |  |  |  |
 | segenc-c8cont-e1-val | val | 272 | 0.383 | 0.129 | 0.335 |  | 0.00 | 1.9 |  |
 | segenc-spansft-e4-val | val | 272 | 0.375 | 0.124 | 0.327 |  | 0.00 | 5.4 |  |

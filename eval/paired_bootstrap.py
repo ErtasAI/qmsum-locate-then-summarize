@@ -1,14 +1,14 @@
-"""Paired bootstrap over per-query ROUGE for two prediction files on the same split.
+"""Paired bootstrap over ROUGE for two prediction files on the same split.
 
 Built 2026-07-30 for the decode sweep, where beams=2 plus a repeat penalty moved val ROUGE-1
 by +0.001 and the question "is that anything?" needed an answer rather than a shrug. Also the
 machinery the paper's open item 4 needs (confidence intervals on the headline margins), so it
 takes an arbitrary pair of rows rather than being decode-specific.
 
-Paired, not independent: both systems are scored on the SAME queries, so resampling queries
-jointly and taking the per-draw difference removes the between-query variance that dominates
-this benchmark. An unpaired comparison of two 272-query means would be far wider and would
-understate our ability to detect a real difference.
+Paired, not independent: both systems are scored on the SAME queries. The default resamples
+queries jointly. ``--resample-unit meeting`` instead resamples all queries from a meeting as
+one cluster, which is the paper's central inferential analysis and respects within-meeting
+dependence.
 
 Reports:
   - each system's mean and the observed difference
@@ -65,10 +65,10 @@ def per_query_bertscore(pred_path, split):
     (a pinned model name, rescaling with baseline) would produce a defensible number that
     silently fails to match the tables, which is worse than having no number.
     """
-    from bert_score import score as bs
     items = list(_rows(pred_path, split))
     if not items:
         return {}
+    from bert_score import score as bs
     _, _, f1 = bs([p for _, p, _ in items], [r for _, _, r in items],
                   lang="en", verbose=False)
     return {qid: float(v) for (qid, _, _), v in zip(items, f1)}
@@ -110,6 +110,62 @@ def paired_bootstrap(a_scores, b_scores, draws=10000, seed=20260723, conf=95):
     }
 
 
+def paired_cluster_bootstrap(a_scores, b_scores, cluster_by_query, draws=10000,
+                             seed=20260723, conf=95):
+    """Paired bootstrap that samples clusters and retains every query within each one.
+
+    Cluster draws are equally likely at the meeting level. The statistic within each draw is
+    still the mean over queries, so a sampled meeting contributes all of its query-level
+    differences and retains its original within-meeting query weighting.
+    """
+    shared = sorted(set(a_scores) & set(b_scores))
+    if not shared:
+        raise SystemExit("no shared query_ids between the two prediction files")
+    missing = [query_id for query_id in shared if query_id not in cluster_by_query]
+    if missing:
+        raise SystemExit(f"missing cluster ids for {len(missing)} shared queries")
+
+    grouped = {}
+    for query_id in shared:
+        grouped.setdefault(cluster_by_query[query_id], []).append(
+            b_scores[query_id] - a_scores[query_id])
+    cluster_ids = sorted(grouped)
+    rng = random.Random(seed)
+    diffs, b_wins = [], 0
+    for _ in range(draws):
+        sampled = [grouped[cluster_ids[rng.randrange(len(cluster_ids))]]
+                   for _ in cluster_ids]
+        values = [difference for cluster in sampled for difference in cluster]
+        difference = sum(values) / len(values)
+        diffs.append(difference)
+        if difference > 0:
+            b_wins += 1
+    diffs.sort()
+    lo_i = int((100 - conf) / 2 / 100 * draws)
+    hi_i = int((1 - (100 - conf) / 2 / 100) * draws) - 1
+    observed = [b_scores[q] - a_scores[q] for q in shared]
+    return {
+        "n_shared": len(shared),
+        "n_clusters": len(cluster_ids),
+        "resampling_unit": "meeting",
+        "a_mean": sum(a_scores[q] for q in shared) / len(shared),
+        "b_mean": sum(b_scores[q] for q in shared) / len(shared),
+        "observed_diff": sum(observed) / len(observed),
+        f"ci{conf}_low": diffs[lo_i],
+        f"ci{conf}_high": diffs[hi_i],
+        "p_b_better": b_wins / draws,
+        "per_query_b_wins": sum(1 for value in observed if value > 0),
+        "per_query_a_wins": sum(1 for value in observed if value < 0),
+        "per_query_ties": sum(1 for value in observed if value == 0),
+        "median_abs_per_query_diff": statistics.median(abs(value) for value in observed),
+    }
+
+
+def meeting_by_query(split):
+    """Return the benchmark's query-to-meeting cluster assignment for a split."""
+    return {query["query_id"]: query["meeting_id"] for query in load_queries(split)}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--a", required=True, help="baseline prediction file")
@@ -119,12 +175,18 @@ def main():
                     choices=["rouge1", "rouge2", "rougeL", "rougeLsum", "bertscore"],
                     help="bertscore needs a GPU and loads roberta-large; the others are CPU")
     ap.add_argument("--draws", type=int, default=10000)
+    ap.add_argument("--resample-unit", choices=["query", "meeting"], default="query",
+                    help="paper headline intervals use meeting-cluster resampling")
     ap.add_argument("--label", default="")
     a = ap.parse_args()
 
-    res = paired_bootstrap(per_query_scores(a.a, a.split, a.metric),
-                           per_query_scores(a.b, a.split, a.metric),
-                           draws=a.draws)
+    a_scores = per_query_scores(a.a, a.split, a.metric)
+    b_scores = per_query_scores(a.b, a.split, a.metric)
+    if a.resample_unit == "meeting":
+        res = paired_cluster_bootstrap(a_scores, b_scores, meeting_by_query(a.split),
+                                       draws=a.draws)
+    else:
+        res = paired_bootstrap(a_scores, b_scores, draws=a.draws)
     res = {"label": a.label, "metric": a.metric, "a": a.a, "b": a.b, **res}
     print(json.dumps(res, indent=2))
     print(f"\n{a.metric}: A {res['a_mean']:.4f} -> B {res['b_mean']:.4f}  "
@@ -132,7 +194,7 @@ def main():
           f"95% CI [{res['ci95_low']:+.4f}, {res['ci95_high']:+.4f}]  "
           f"P(B better) {res['p_b_better']:.3f}")
     crosses_zero = res["ci95_low"] <= 0 <= res["ci95_high"]
-    print("VERDICT:", "indistinguishable from zero at 95%" if crosses_zero
+    print("VERDICT:", "difference unresolved; interval crosses zero at 95%" if crosses_zero
           else "difference excludes zero at 95%")
 
 

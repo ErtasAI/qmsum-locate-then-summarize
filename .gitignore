@@ -6,6 +6,7 @@ checkpoints/
 __pycache__/
 *.pyc
 .pytest_cache/
+.DS_Store
 
 # Third-party model weights downloaded for comparison rows, 1.6 GB and re-fetchable.
 # `results/external/socratic-qmsum/` is Salesforce's released Socratic SegEnc checkpoint,

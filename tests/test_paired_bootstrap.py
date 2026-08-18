@@ -10,7 +10,7 @@ import json
 
 import pytest
 
-from eval.paired_bootstrap import paired_bootstrap, per_query_scores
+from eval.paired_bootstrap import paired_bootstrap, paired_cluster_bootstrap, per_query_scores
 
 
 def _write_preds(tmp_path, name, rows):
@@ -59,6 +59,27 @@ def test_no_overlap_is_an_error_rather_than_an_empty_mean():
     silently report a mean over nothing."""
     with pytest.raises(SystemExit):
         paired_bootstrap({"q1": 0.5}, {"q9": 0.5})
+
+
+def test_cluster_bootstrap_resamples_whole_meetings_and_is_deterministic():
+    """All queries from a sampled meeting travel together in every bootstrap draw."""
+    a = {**{f"m1_q{i}": 0.0 for i in range(10)}, "m2_q0": 1.0}
+    b = {**{f"m1_q{i}": 1.0 for i in range(10)}, "m2_q0": 0.0}
+    clusters = {q: q.split("_")[0] for q in a}
+    got = paired_cluster_bootstrap(a, b, clusters, draws=1000, seed=7)
+    assert got == paired_cluster_bootstrap(a, b, clusters, draws=1000, seed=7)
+    assert got["n_shared"] == 11
+    assert got["n_clusters"] == 2
+    assert got["resampling_unit"] == "meeting"
+    assert got["observed_diff"] == pytest.approx(9 / 11)
+    assert got["ci95_low"] == pytest.approx(-1.0)
+    assert got["ci95_high"] == pytest.approx(1.0)
+
+
+def test_cluster_bootstrap_requires_a_cluster_for_every_shared_query():
+    with pytest.raises(SystemExit, match="missing cluster ids"):
+        paired_cluster_bootstrap({"q1": 0.1, "q2": 0.2},
+                                 {"q1": 0.2, "q2": 0.3}, {"q1": "m1"})
 
 
 def test_rouge_metric_reads_predictions_and_keys_by_query_id(tmp_path, monkeypatch):
