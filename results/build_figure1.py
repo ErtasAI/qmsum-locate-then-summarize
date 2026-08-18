@@ -13,7 +13,7 @@ OUTPUT = ROOT / "results" / "figure1-scale.svg"
 OURS = "#C23A15"
 FRONTIER = "#009E73"
 COMMUNITY = "#999999"
-BASE_CHECKPOINT = "#CC79A7"
+BASE_CHECKPOINT = "#0072B2"
 
 SCALE = [
     ("Socratic SegEnc (our port)", "segenc-port-full-test", "406M", BASE_CHECKPOINT),

@@ -42,6 +42,12 @@ def test_svg_uses_ertas_red_and_standalone_provenance_labels():
         "m3-fusion-lfm2.5-1.2b-test",
     ):
         assert bars[run_id].attrib["fill"] == "#C23A15"
+    for run_id in (
+        "segenc-port-full-test",
+        "zeroshot-lfm25-spans-test",
+        "zeroshot-lfm25-trunc-test",
+    ):
+        assert bars[run_id].attrib["fill"] == "#0072B2"
 
     rendered_text = " ".join(text.strip() for text in root.itertext() if text.strip())
     assert "LFM2.5 fine-tune (promoted)" in rendered_text

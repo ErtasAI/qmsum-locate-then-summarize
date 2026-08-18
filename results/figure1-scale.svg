@@ -23,7 +23,7 @@
 <text x="280" y="97.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 33M</text>
 <text x="825.56" y="98.0" font-size="13">35.41</text>
 <text x="258" y="136.0" text-anchor="end" font-size="14">Socratic SegEnc (our port)</text>
-<rect data-run-id="segenc-port-full-test" x="270" y="118" width="545.86" height="26" fill="#CC79A7"/>
+<rect data-run-id="segenc-port-full-test" x="270" y="118" width="545.86" height="26" fill="#0072B2"/>
 <text x="280" y="135.5" fill="#ffffff" font-size="12.5" font-weight="600">406M</text>
 <text x="823.86" y="136.0" font-size="13">35.30</text>
 <text x="258" y="174.0" text-anchor="end" font-size="14">LFM2.5 fine-tune (protocol-exact)</text>
@@ -39,7 +39,7 @@
 <text x="280" y="249.5" fill="#ffffff" font-size="12.5" font-weight="600">Size undisclosed</text>
 <text x="756.18" y="250.0" font-size="13">30.92</text>
 <text x="258" y="288.0" text-anchor="end" font-size="14">base LFM2.5, located spans</text>
-<rect data-run-id="zeroshot-lfm25-spans-test" x="270" y="270" width="465.75" height="26" fill="#CC79A7"/>
+<rect data-run-id="zeroshot-lfm25-spans-test" x="270" y="270" width="465.75" height="26" fill="#0072B2"/>
 <text x="280" y="287.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 33M</text>
 <text x="743.75" y="288.0" font-size="13">30.12</text>
 <text x="258" y="326.0" text-anchor="end" font-size="14">claude-opus-5</text>
@@ -55,7 +55,7 @@
 <text x="280" y="401.5" fill="#ffffff" font-size="12.5" font-weight="600">306M</text>
 <text x="721.06" y="402.0" font-size="13">28.65</text>
 <text x="258" y="440.0" text-anchor="end" font-size="14">base LFM2.5, truncated</text>
-<rect data-run-id="zeroshot-lfm25-trunc-test" x="270" y="422" width="441.82" height="26" fill="#CC79A7"/>
+<rect data-run-id="zeroshot-lfm25-trunc-test" x="270" y="422" width="441.82" height="26" fill="#0072B2"/>
 <text x="280" y="439.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B</text>
 <text x="719.82" y="440.0" font-size="13">28.57</text>
 <text x="258" y="478.0" text-anchor="end" font-size="14">claude-sonnet-5</text>
@@ -82,7 +82,7 @@
 <text x="629" y="699" font-size="13">2026 frontier, zero-shot</text>
 <rect x="270" y="715" width="20" height="13" fill="#999999"/>
 <text x="299" y="727" font-size="13">community checkpoint</text>
-<rect x="600" y="715" width="20" height="13" fill="#CC79A7"/>
+<rect x="600" y="715" width="20" height="13" fill="#0072B2"/>
 <text x="629" y="727" font-size="13">stock / base checkpoint</text>
 </g>
 </svg>
