@@ -14,6 +14,41 @@ def test_title_and_segenc_boundary_match_the_reviewed_paper():
     assert "preprocessing, decoding, implementation, or checkpoint differences" in NORMALIZED
 
 
+def test_comparison_table_uses_compact_names_and_includes_the_port_row():
+    table_start = README.index("| System | Params | Reads |")
+    table_end = README.index("\n\n¹ ", table_start)
+    table_lines = [
+        line for line in README[table_start:table_end].splitlines() if line.startswith("|")
+    ]
+    system_names = [
+        line.split("|", 2)[1].strip().replace("**", "").rstrip("¹²³⁴")
+        for line in table_lines[2:]
+    ]
+
+    assert system_names == [
+        "Socratic-SegEnc (released outputs)",
+        "Span-trained SegEnc",
+        "Ours (promoted)",
+        "Socratic-SegEnc (our port)",
+        "Ours (protocol-exact)",
+        "GPT-5.6 Luna (zero-shot)",
+        "GPT-5.6 Sol (zero-shot)",
+        "LFM2.5-1.2B (zero-shot, spans)",
+        "Claude Opus 5 (zero-shot)",
+        "Claude Haiku 4.5 (zero-shot)",
+        "DistilBART",
+        "LFM2.5-1.2B (zero-shot, truncated)",
+        "Claude Sonnet 5 (zero-shot)",
+        "BART-large-CNN",
+        "PEGASUS",
+        "LED-base",
+    ]
+    assert (
+        "| Socratic-SegEnc (our port) | 406M | transcript up to ~11.8k words | "
+        "0.3530 | 0.1187 | 0.3056 | 0.8695 | N/A |"
+    ) in README
+
+
 def test_uncertainty_language_does_not_claim_equivalence_or_a_seed_distribution():
     assert "statistically indistinguishable" not in README
     assert "Training-seed dispersion" not in README

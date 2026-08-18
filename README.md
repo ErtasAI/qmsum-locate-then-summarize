@@ -138,38 +138,40 @@ was produced by us and scored by the same frozen scorer on the same official tes
 
 ![Figure 1: ROUGE-1 comparison under one frozen scorer](results/figure1-scale.svg)
 
-Figure 1 is an executable, apples-to-apples comparison: it uses the stock Socratic SegEnc
+Figure 1 is an executable, apples-to-apples comparison: it uses the stock Socratic-SegEnc
 checkpoint run through our port (35.30), not the 38.60 obtained by applying our scorer to the
-authors' released predictions. The latter remains in Table 1 below because it is the strongest
-published specialist result. `python results/build_figure1.py` deterministically rebuilds the
-SVG from `results/rows/`.
+authors' released predictions. Table 1 reports both as separately labelled rows, retaining the
+released-output result because it is the strongest published specialist result.
+`python results/build_figure1.py` deterministically rebuilds the SVG from `results/rows/`.
 
 | System | Params | Reads | R1 | R2 | R-Lsum | BERTScore | API cost, full split² |
 |---|---|---|---|---|---|---|---|
-| Socratic SegEnc (Pagnoni et al., ACL 2023), authors' released predictions¹ | 406M | transcript up to ~11.8k words | 0.3860 | 0.1391 | 0.3371 | 0.8737 | N/A |
-| SegEnc, trained by us for the span regime | 406M | 2,000 locator-packed words at inference | 0.3633 | 0.1272 | 0.3217 | 0.8710 | N/A |
-| **This system, promoted configuration** | **1.2B + 33M** | **2,000 located words** | **0.3541** | **0.1228** | **0.3136** | **0.8733** | **N/A** |
-| **This system, protocol-exact** | **1.2B + 23M** | **3,000 located words** | **0.3339** | **0.1065** | **0.2930** | **0.8680** | **N/A** |
-| gpt-5.6-luna, zero-shot² | Size undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 | $2.05 |
-| gpt-5.6-sol, zero-shot² | Size undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 | $10.23 |
-| base LFM2.5-1.2B, zero-shot, our located spans⁴ | 1.2B + 33M | 2,000 located words | 0.3012 | 0.0670 | 0.2504 | 0.8687 | N/A |
-| claude-opus-5, zero-shot² | Size undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 | $16.20 |
-| claude-haiku-4-5, zero-shot² | Size undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 | $2.35 |
-| distilbart-cnn-12-6, community checkpoint³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | 0.8546 | N/A |
-| base LFM2.5-1.2B, zero-shot, truncated transcript⁴ | 1.2B | first 4,500 words | 0.2857 | 0.0555 | 0.2455 | 0.8607 | N/A |
-| claude-sonnet-5, zero-shot² | Size undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 | $6.50 |
-| bart-large-cnn, community checkpoint³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | 0.8513 | N/A |
-| pegasus-cnn, community checkpoint³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | 0.8344 | N/A |
-| led-base, community checkpoint³ | 162M | truncated to model context | 0.0941 | 0.0237 | 0.0796 | 0.7818 | N/A |
+| Socratic-SegEnc (released outputs)¹ | 406M | transcript up to ~11.8k words | 0.3860 | 0.1391 | 0.3371 | 0.8737 | N/A |
+| Span-trained SegEnc | 406M | 2,000 locator-packed words at inference | 0.3633 | 0.1272 | 0.3217 | 0.8710 | N/A |
+| **Ours (promoted)** | **1.2B + 33M** | **2,000 located words** | **0.3541** | **0.1228** | **0.3136** | **0.8733** | **N/A** |
+| Socratic-SegEnc (our port) | 406M | transcript up to ~11.8k words | 0.3530 | 0.1187 | 0.3056 | 0.8695 | N/A |
+| **Ours (protocol-exact)** | **1.2B + 23M** | **3,000 located words** | **0.3339** | **0.1065** | **0.2930** | **0.8680** | **N/A** |
+| GPT-5.6 Luna (zero-shot)² | Size undisclosed | full transcript | 0.3243 | 0.0789 | 0.2749 | 0.8608 | $2.05 |
+| GPT-5.6 Sol (zero-shot)² | Size undisclosed | full transcript | 0.3092 | 0.0694 | 0.2610 | 0.8583 | $10.23 |
+| LFM2.5-1.2B (zero-shot, spans)⁴ | 1.2B + 33M | 2,000 located words | 0.3012 | 0.0670 | 0.2504 | 0.8687 | N/A |
+| Claude Opus 5 (zero-shot)² | Size undisclosed | full transcript | 0.2887 | 0.0843 | 0.2501 | 0.8522 | $16.20 |
+| Claude Haiku 4.5 (zero-shot)² | Size undisclosed | full transcript | 0.2866 | 0.0842 | 0.2419 | 0.8431 | $2.35 |
+| DistilBART³ | 306M | truncated to model context | 0.2865 | 0.0654 | 0.2550 | 0.8546 | N/A |
+| LFM2.5-1.2B (zero-shot, truncated)⁴ | 1.2B | first 4,500 words | 0.2857 | 0.0555 | 0.2455 | 0.8607 | N/A |
+| Claude Sonnet 5 (zero-shot)² | Size undisclosed | full transcript | 0.2789 | 0.0753 | 0.2398 | 0.8478 | $6.50 |
+| BART-large-CNN³ | 406M | truncated to model context | 0.2732 | 0.0565 | 0.2408 | 0.8513 | N/A |
+| PEGASUS³ | 570M | truncated to model context | 0.2009 | 0.0445 | 0.1723 | 0.8344 | N/A |
+| LED-base³ | 162M | truncated to model context | 0.0941 | 0.0237 | 0.0796 | 0.7818 | N/A |
 
 ¹ The one row we did not generate: scored from the authors' released prediction files under our
 frozen scorer, gated on first reproducing their reported score. Their model reads the transcript
 up to its ~11,800-word training-time truncation. Running the stock released checkpoint end to end
 through our port scores 35.30, 3.3 ROUGE-1 below the released predictions. Precision and padding
 checks did not close the gap; it may arise from preprocessing, decoding, implementation, or
-checkpoint differences. We therefore use 35.30 only for within-port Figure 1 comparisons and
-retain 38.60 as the authors-prediction Table 1 result. Neither number is silently substituted for
-the other.
+checkpoint differences. Table 1 therefore shows both as separately labelled rows, while Figure 1
+uses the port row only. The port BERTScore was backfilled from its stored predictions with the
+frozen scorer; a CPU/CUDA control difference of 1.19e-7 is below the displayed precision. Neither
+result is silently substituted for the other.
 ² Frontier baselines read the full untruncated transcript (the 40,000-word budget exceeds the
 longest transcript in the split), zero-shot, non-reasoning regime, same prompt template as
 ours. Output length was not experimentally controlled across proprietary APIs, and the study

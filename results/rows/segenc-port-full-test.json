@@ -6,7 +6,7 @@
   "rouge2": 0.1187223778201048,
   "rougeL": 0.23004530053517294,
   "rougeLsum": 0.30563137948730607,
-  "bertscore_f1": null,
+  "bertscore_f1": 0.8695340156555176,
   "cost_usd_total": 0.0,
   "latency_s_mean": 4.565,
   "locate_s_mean": null,
@@ -18,5 +18,5 @@
   "peak_vram_reserved_gb_max": 8.598,
   "device": null,
   "billing_mode": null,
-  "notes": "Stock Salesforce Socratic SegEnc checkpoint through our executable port: full-transcript regime, bf16, pad=True, 63 effective chunks, TEST split. Figure 1 uses this 35.30 row for an apples-to-apples runnable comparison. Table 1 separately retains 38.60 from the authors' released predictions scored by our scorer; the 3.3-point gap may reflect preprocessing, decoding, implementation, or checkpoint differences. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
+  "notes": "Stock Salesforce Socratic SegEnc checkpoint through our executable port: full-transcript regime, bf16, pad=True, 63 effective chunks, TEST split. Figure 1 uses this 35.30 row for an apples-to-apples runnable comparison. Table 1 presents this port row beside the separately labelled 38.60 released-output row; the 3.3-point gap may reflect preprocessing, decoding, implementation, or checkpoint differences. | bertscore_f1 backfilled 2026-08-18 on CPU from stored predictions through the frozen scorer; ROUGE reproduced exactly. A CUDA control differed from its stored BERTScore by 1.19e-7, below the paper's four-decimal display precision. | cost_usd_total set 2026-08-04: local GPU inference, no API in the loop"
 }
