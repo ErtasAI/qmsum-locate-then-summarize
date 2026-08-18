@@ -8,6 +8,8 @@ NORMALIZED = " ".join(README.split())
 
 def test_title_and_segenc_boundary_match_the_reviewed_paper():
     assert "Retrieved-Span Training for Efficient Query-Focused Meeting Summarization on QMSum" in README
+    assert "git clone https://github.com/ErtasAI/qmsum-retrieved-span-training" in README
+    assert "cd qmsum-retrieved-span-training" in README
     assert "35.30" in README and "38.60" in README
     assert "preprocessing, decoding, implementation, or checkpoint differences" in NORMALIZED
 

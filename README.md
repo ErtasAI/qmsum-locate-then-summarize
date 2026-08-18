@@ -31,8 +31,8 @@ Requirements: Python 3.12, an NVIDIA GPU (peak inference VRAM is 5.73 GB; any 8 
 comfortable), about 4 GB of downloads (base model, artifacts, data). No API keys.
 
 ```bash
-git clone https://github.com/ErtasAI/qmsum-locate-then-summarize
-cd qmsum-locate-then-summarize
+git clone https://github.com/ErtasAI/qmsum-retrieved-span-training
+cd qmsum-retrieved-span-training
 python -m venv .venv
 # Windows: .venv\Scripts\activate     Linux/macOS: source .venv/bin/activate
 pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cu128
