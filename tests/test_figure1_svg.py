@@ -24,7 +24,8 @@ def test_svg_is_valid_deterministic_and_carries_reviewed_labels():
     assert "35.30" in first  # stock Socratic SegEnc under our executable port
     assert "36.33" in first  # SegEnc trained on our span regime
     assert "38.60" not in first  # authors' released predictions are not apples-to-apples here
-    assert "stock Socratic SegEnc" in first
+    assert "Socratic SegEnc (our port)" in first
+    assert "stock Socratic SegEnc" not in first
     assert "span-trained SegEnc" in first
 
 
@@ -48,6 +49,18 @@ def test_svg_uses_ertas_red_and_standalone_provenance_labels():
     assert "base LFM2.5, located spans" in rendered_text
     assert "fine-tuned by Ertas" in rendered_text
     assert "ours, promoted" not in rendered_text
+
+    text_nodes = {
+        " ".join(text.strip() for text in element.itertext() if text.strip()): element
+        for element in root.iter("{http://www.w3.org/2000/svg}text")
+    }
+    for single_line_label in (
+        "LFM2.5 fine-tune (promoted)",
+        "Socratic SegEnc (our port)",
+        "LFM2.5 fine-tune (protocol-exact)",
+    ):
+        assert single_line_label in text_nodes
+        assert not list(text_nodes[single_line_label])
 
 
 def test_readme_embeds_the_generated_figure():

@@ -16,10 +16,10 @@ COMMUNITY = "#999999"
 BASE_CHECKPOINT = "#CC79A7"
 
 SCALE = [
-    ("stock Socratic SegEnc\n(our port)", "segenc-port-full-test", "406M", BASE_CHECKPOINT),
+    ("Socratic SegEnc (our port)", "segenc-port-full-test", "406M", BASE_CHECKPOINT),
     ("span-trained SegEnc", "segenc-c8cont-e4-test", "406M", OURS),
-    ("LFM2.5 fine-tune\n(promoted)", "loc-w375-l12-b2000-test", "1.2B + 33M", OURS),
-    ("LFM2.5 fine-tune\n(protocol-exact)", "m3-fusion-lfm2.5-1.2b-test", "1.2B + 22.7M", OURS),
+    ("LFM2.5 fine-tune (promoted)", "loc-w375-l12-b2000-test", "1.2B + 33M", OURS),
+    ("LFM2.5 fine-tune (protocol-exact)", "m3-fusion-lfm2.5-1.2b-test", "1.2B + 22.7M", OURS),
     ("gpt-5.6-luna", "baseline-gpt-5.6-luna-test", "Size undisclosed", FRONTIER),
     ("gpt-5.6-sol", "baseline-gpt-5.6-sol-test", "Size undisclosed", FRONTIER),
     ("base LFM2.5, located spans", "zeroshot-lfm25-spans-test", "1.2B + 33M", BASE_CHECKPOINT),
