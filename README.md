@@ -1,7 +1,6 @@
-# Training on retrieved spans for QMSum
+# Retrieved-Span Training for Efficient Query-Focused Meeting Summarization on QMSum
 
 Code, frozen protocol, per-query predictions and released models for the paper
-*Training on retrieved spans enables efficient query-focused meeting summarization on QMSum*
 (Ertas AI, in preparation).
 
 The system is a two-stage pipeline for query-focused meeting summarization on
