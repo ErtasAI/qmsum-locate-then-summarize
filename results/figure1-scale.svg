@@ -15,19 +15,19 @@
 <line x1="888.60" y1="34" x2="888.60" y2="612" stroke="#d9d9d9" stroke-width="1"/>
 <text x="888.60" y="633" text-anchor="middle" font-size="13">40</text>
 <text x="258" y="60.0" text-anchor="end" font-size="14">span-trained SegEnc</text>
-<rect data-run-id="segenc-c8cont-e4-test" x="270" y="42" width="561.90" height="26" fill="#0072B2"/>
+<rect data-run-id="segenc-c8cont-e4-test" x="270" y="42" width="561.90" height="26" fill="#C23A15"/>
 <text x="280" y="59.5" fill="#ffffff" font-size="12.5" font-weight="600">406M</text>
 <text x="839.90" y="60.0" font-size="13">36.33</text>
-<text x="258" y="98.0" text-anchor="end" font-size="14">ours, promoted</text>
-<rect data-run-id="loc-w375-l12-b2000-test" x="270" y="80" width="547.56" height="26" fill="#0072B2"/>
+<text x="258" y="91.0" text-anchor="end" font-size="13"><tspan x="258" dy="0">LFM2.5 fine-tune</tspan><tspan x="258" dy="14">(promoted)</tspan></text>
+<rect data-run-id="loc-w375-l12-b2000-test" x="270" y="80" width="547.56" height="26" fill="#C23A15"/>
 <text x="280" y="97.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 33M</text>
 <text x="825.56" y="98.0" font-size="13">35.41</text>
 <text x="258" y="129.0" text-anchor="end" font-size="13"><tspan x="258" dy="0">stock Socratic SegEnc</tspan><tspan x="258" dy="14">(our port)</tspan></text>
 <rect data-run-id="segenc-port-full-test" x="270" y="118" width="545.86" height="26" fill="#CC79A7"/>
 <text x="280" y="135.5" fill="#ffffff" font-size="12.5" font-weight="600">406M</text>
 <text x="823.86" y="136.0" font-size="13">35.30</text>
-<text x="258" y="174.0" text-anchor="end" font-size="14">ours, protocol-exact</text>
-<rect data-run-id="m3-fusion-lfm2.5-1.2b-test" x="270" y="156" width="516.45" height="26" fill="#0072B2"/>
+<text x="258" y="167.0" text-anchor="end" font-size="13"><tspan x="258" dy="0">LFM2.5 fine-tune</tspan><tspan x="258" dy="14">(protocol-exact)</tspan></text>
+<rect data-run-id="m3-fusion-lfm2.5-1.2b-test" x="270" y="156" width="516.45" height="26" fill="#C23A15"/>
 <text x="280" y="173.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 22.7M</text>
 <text x="794.45" y="174.0" font-size="13">33.39</text>
 <text x="258" y="212.0" text-anchor="end" font-size="14">gpt-5.6-luna</text>
@@ -38,7 +38,7 @@
 <rect data-run-id="baseline-gpt-5.6-sol-test" x="270" y="232" width="478.18" height="26" fill="#009E73"/>
 <text x="280" y="249.5" fill="#ffffff" font-size="12.5" font-weight="600">Size undisclosed</text>
 <text x="756.18" y="250.0" font-size="13">30.92</text>
-<text x="258" y="288.0" text-anchor="end" font-size="14">base LFM2.5, our spans</text>
+<text x="258" y="288.0" text-anchor="end" font-size="14">base LFM2.5, located spans</text>
 <rect data-run-id="zeroshot-lfm25-spans-test" x="270" y="270" width="465.75" height="26" fill="#CC79A7"/>
 <text x="280" y="287.5" fill="#ffffff" font-size="12.5" font-weight="600">1.2B + 33M</text>
 <text x="743.75" y="288.0" font-size="13">30.12</text>
@@ -76,8 +76,8 @@
 <text x="423.48" y="592.0" font-size="13">9.41</text>
 <line x1="270" y1="612" x2="935" y2="612" stroke="#111111" stroke-width="1"/>
 <text x="602.5" y="660" text-anchor="middle" font-size="15">ROUGE-1, official test split (n=281), one frozen scorer</text>
-<rect x="270" y="687" width="20" height="13" fill="#0072B2"/>
-<text x="299" y="699" font-size="13">our fine-tuned systems</text>
+<rect x="270" y="687" width="20" height="13" fill="#C23A15"/>
+<text x="299" y="699" font-size="13">fine-tuned by Ertas</text>
 <rect x="600" y="687" width="20" height="13" fill="#009E73"/>
 <text x="629" y="699" font-size="13">2026 frontier, zero-shot</text>
 <rect x="270" y="715" width="20" height="13" fill="#999999"/>

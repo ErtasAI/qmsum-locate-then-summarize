@@ -8,8 +8,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 ROWS = ROOT / "results" / "rows"
 OUTPUT = ROOT / "results" / "figure1-scale.svg"
 
-# Okabe-Ito-derived palette used by the reviewed paper figure.
-OURS = "#0072B2"
+# Ertas red identifies systems fine-tuned by Ertas. The remaining categories
+# retain the reviewed paper's accessible Okabe-Ito-derived colours.
+OURS = "#C23A15"
 FRONTIER = "#009E73"
 COMMUNITY = "#999999"
 BASE_CHECKPOINT = "#CC79A7"
@@ -17,11 +18,11 @@ BASE_CHECKPOINT = "#CC79A7"
 SCALE = [
     ("stock Socratic SegEnc\n(our port)", "segenc-port-full-test", "406M", BASE_CHECKPOINT),
     ("span-trained SegEnc", "segenc-c8cont-e4-test", "406M", OURS),
-    ("ours, promoted", "loc-w375-l12-b2000-test", "1.2B + 33M", OURS),
-    ("ours, protocol-exact", "m3-fusion-lfm2.5-1.2b-test", "1.2B + 22.7M", OURS),
+    ("LFM2.5 fine-tune\n(promoted)", "loc-w375-l12-b2000-test", "1.2B + 33M", OURS),
+    ("LFM2.5 fine-tune\n(protocol-exact)", "m3-fusion-lfm2.5-1.2b-test", "1.2B + 22.7M", OURS),
     ("gpt-5.6-luna", "baseline-gpt-5.6-luna-test", "Size undisclosed", FRONTIER),
     ("gpt-5.6-sol", "baseline-gpt-5.6-sol-test", "Size undisclosed", FRONTIER),
-    ("base LFM2.5, our spans", "zeroshot-lfm25-spans-test", "1.2B + 33M", BASE_CHECKPOINT),
+    ("base LFM2.5, located spans", "zeroshot-lfm25-spans-test", "1.2B + 33M", BASE_CHECKPOINT),
     ("claude-opus-5", "baseline-claude-opus-5-test", "Size undisclosed", FRONTIER),
     ("claude-haiku-4-5", "baseline-claude-haiku-4-5-test", "Size undisclosed", FRONTIER),
     ("distilbart", "row-distilbart-test", "306M", COMMUNITY),
@@ -96,7 +97,7 @@ def build_svg():
                        text_anchor="middle", font_size="15"))
 
     legend = [
-        (OURS, "our fine-tuned systems"),
+        (OURS, "fine-tuned by Ertas"),
         (FRONTIER, "2026 frontier, zero-shot"),
         (COMMUNITY, "community checkpoint"),
         (BASE_CHECKPOINT, "stock / base checkpoint"),
